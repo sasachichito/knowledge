@@ -52,8 +52,8 @@ branch.feature/#9_create_es_mappingcommand.merge=refs/heads/feature/#9_create_es
 ユーザーレベルでtrueに設定（他にはfalse, inputがある）
 [aaa@bbb .git]$ git config --global core.autocrlf false
 
-【参考】
-公式
-https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA-Git-%E3%81%AE%E8%A8%AD%E5%AE%9A
-true, false, inputについて
+【参考】  
+公式  
+https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E3%82%AB%E3%82%B9%E3%82%BF%E3%83%9E%E3%82%A4%E3%82%BA-Git-%E3%81%AE%E8%A8%AD%E5%AE%9A  
+true, false, inputについて  
 https://qiita.com/uggds/items/00a1974ec4f115616580

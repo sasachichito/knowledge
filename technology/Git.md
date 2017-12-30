@@ -8,19 +8,23 @@ Gitサーバーの実態はベアリポジトリであり、それがリモー�
 サーバー(ベアリポジトリ、リモートリポジトリ)への接続方法が4つある。  
 
 1. Localプロトコル  
+
 リモートリポジトリをローカルリポジトリと同じディスク上の別のディレクトリに置き、　
 `file://`でアクセスする。
 
 2. SSHプロトコル  
+
 SSH認証を利用して、物理的に離れたマシン上にあるリモートリポジトリに、  
 `ssh://`でアクセスする。  
 
 3. Gitプロトコル  
+
 Git に標準で付属する特別なデーモン。専用のポート (9418) をリッスンし、  
 SSH プロトコルと同様のサービスを提供するが、認証は行わない。  
 `git://`でアクセスする。
 
 4. HTTP/Sプロトコル  
+
 `http://`や`https://`でアクセスする。  
 
 
@@ -77,7 +81,7 @@ branch.feature/#9_create_es_mappingcommand.merge=refs/heads/feature/#9_create_es
 
 ## CRLFの設定について  
 
-この段階で、core.autocrlf=false になっている
+上記の設定の段階で、core.autocrlf=false になっている
   
 ユーザーレベルでtrueに設定（他にはfalse, inputがある）
 [aaa@bbb .git]$ git config --global core.autocrlf false

@@ -1,1 +1,1 @@
-![代替テキスト](/picture/drawtest.xml "画像タイトル")
+![代替テキスト](/picture/drawtest.png "画像タイトル")

@@ -1,4 +1,4 @@
-ElasticSerchのMappingについて  
+## Mapping
   
 TypeはRDBMSでいうテーブルのことで  
 その「テーブルのスキーマ」と同じ意味で、「TypeのMapping」という。  

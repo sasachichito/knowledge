@@ -36,3 +36,8 @@ Linuxは、認識しているNICをポートにすることでブリッジにす
 ## docker run の i, tオプション
 
 ![i,tオプション](/picture/Docker3.png "i,tオプション")
+
+
+## Docker swarm
+
+![swarm](/picture/Docker4.png "swarm")

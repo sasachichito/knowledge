@@ -31,3 +31,8 @@ Linuxは、認識しているNICをポートにすることでブリッジにす
 
 
 ![ネットワーク](/picture/Docker2.png "ネットワーク")
+
+
+## docker run の i, tオプション
+
+![i,tオプション](/picture/Docker.png "i,tオプション")

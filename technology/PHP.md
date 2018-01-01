@@ -1,3 +1,9 @@
+# リテラル
+
+# オートローダー
+
+# Composer
+
 Composerはcomposer.jsonファイルに書き込んだり、読み込んでライブラリをダウンロードしたりする。  
 
 composer.jsonの中身は大きく2分されていて、requireとrequire-devで構成されている。  

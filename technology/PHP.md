@@ -86,6 +86,11 @@ phar拡張モジュールは、pharストリームラッパーおよびPharク�
 Pharクラスを使用すると、pharファイルの作成や展開、そしてその中身を順に処理することなどができる。   
 【参考】https://www.weblio.jp/content/Phar  
 
+# phpの設定確認
+```
+# php -r 'phpinfo();' | grep conf.d
+```
+
 # リテラル
 
 # オートローダー

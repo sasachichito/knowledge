@@ -21,7 +21,7 @@ pearによるインストールはオペレーティング・システム上で�
 
 その解決策としてComposerが開発された。
 
-### PECL(PHP Extension Community Library)はPHPエクステンションを配布するWebサイトの名前であり、パッケージング管理ツールのpearのことでもある。ピクルと発音する。peclコマンドは内部でpearを利用している。  
+### PECL(PHP Extension Community Library)はPHPエクステンションを配布するWebサイトの名前であり、パッケージング管理ツールのpeclのことでもある。ピクルと発音する。peclコマンドは内部でpearを利用している。  
 ※PHPエクステンション(拡張モジュール)... PHPの機能を拡張するためのモジュール。 
 
 PHPエクステンションを読み込む方法は2通りあり、  

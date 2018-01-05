@@ -1,34 +1,84 @@
+# PHPのインストール
+パッケージでインストールするか、ソースからビルドする。  
+ソースからビルドする場合、オプションを指定することでカスタマイズできる。  
+
+https://qiita.com/dksatou/items/23c2a2567540eebc0ed9
+
 # ライブラリ
-|ライブラリの種類|配布サイト|インストーラ|
-|:--|:--|:--|
-|PHP言語で書かれたライブラリ|PHER (http://pear.php.net/) |pear|
-|PHP言語で書かれたライブラリ|Packagist (https://packagist.org/)	|Composer|
-|C言語で書かれたライブラリ|PECL (https://pecl.php.net/) |pecl|
+|ライブラリの種類|配布サイト|インストーラ|備考|
+|:--|:--|:--|:--|
+|PHP言語で書かれたライブラリ|PHER (http://pear.php.net/) |pear|Composerに移行され、現在は未使用|
+|PHP言語で書かれたライブラリ|Packagist (https://packagist.org/)	|Composer||
+|C言語で書かれたライブラリ|PECL (https://pecl.php.net/) |pecl||
 
 後者の「C言語で書かれたライブラリ」のことを「エクステンション」という。  
 
 
-### PEAR (PHP Extension and Application Repository) はPHP言語で書かれたライブラリを提供するリポジトリの名前であり、そのパッケージ管理ツールのpearのことでもある。  
+### PEAR (PHP Extension and Application Repository) はPHP言語で書かれたライブラリを提供するリポジトリの名前であり、そのパッケージ管理ツールのpearのことでもある。ペアと発音する。  
 
 pearによるインストールはオペレーティング・システム上でグローバルに保管される欠点がある。  
 つまり稼働している既存アプリケーションを新サーバーにをデプロイするとき、新サーバーで新たに依存ライブラリを用意しなければならない。  
 
 その解決策としてComposerが開発された。
 
-### PECL(PHP Extension Community Library)はPHPエクステンションを配布するWebサイトの名前であり、パッケージング管理ツールのpearのことでもある。    
+### PECL(PHP Extension Community Library)はPHPエクステンションを配布するWebサイトの名前であり、パッケージング管理ツールのpearのことでもある。ピクルと発音する。peclコマンドは内部でpearを利用している。  
+※拡張モジュール(PHPエクステンション)... PHPの機能を拡張するためのモジュール。 
+
+PHPエクステンションを読み込む方法は2通りあり、  
+コンパイル時にPHPに組み込むか、DLLとして読む込むかである。  
+
+DLLとして読み込む場合、php.iniで指定するか、スクリプトの中でdl()関数を用いる。  
+現在ロードされているモジュールは、get_loaded_extensions()関数を使うことによって取得できる。  
+
+`pecl install`は「*.soファイルを生成して所定の場所(extension_dir)に置く」という動作をしている。  
+(extension_dirがどこかわからない場合はphp -i | grep -i extension_dirで調べられる。)  
+
+`pecl install hoge`した時を考えると、以下の作業が行われる。  
+```
+パッケージのソースコード一式(tar.gz)をダウンロード
+↓
+tar.gzを解凍
+↓
+ビルド
+↓
+生成されたhoge.soファイルをextension_dirにコピー
+```
+上記を手動で実施することもできる。  
+
+・手動ビルドの手順(memcachedエクステンションの例)  
+1. 依存ライブラリの解決
+```
+# エクステンションが依存するライブラリを入れておく
+$ sudo yum install libmemcached-devel
+```
+2. エクステンションのソースコードを取得  
+ソースの場所はPECLサイトのmemcachedのページ (https://pecl.php.net/package/memcached) にて、”Browse Source” というリンクを辿る。  
+```
+# エクステンションのソースコードを取得
+$ git clone -b php7 --depth 1 https://github.com/php-memcached-dev/php-memcached
+```
+3. configureスクリプトの作成  
+configureスクリプトはUnix系の環境でPHPをコンパイルする際に用いられるスクリプト
+```
+$ cd php-memcached
+$ phpize
+```
+4. configureスクリプト実行
+```
+$ ./configure
+```
+5. コンパイル  
+```
+$ make
+```
+6. 生成された./modules/memcached.so をextension_dirにコピー  
+```
+$ sudo make install
+```
 
 【参考】http://dqn.sakusakutto.jp/2015/07/php_extension_pecl_phpize.html
 
 
-# 拡張モジュール PHPエクステンション
-PHPの機能を拡張するためのモジュール。ダイナミックリンクライブラリ。  
-
-配布先としては、PECLなどが有名。※ (PECL)   
-
-
-php.iniでPHPの起動時にその拡張機能を読み込むことができ、また、スクリプトの中でdl()関数を用いることによって動的に読み込むことができる。  
-
-現在ロードされているモジュールは、get_loaded_extensions()関数を使うことによって取得できる。  
 
 
 phar拡張モジュールは、pharストリームラッパーおよびPharクラスを提供し、PHPアーカイブ(phar)ファイルを操作することができる。  

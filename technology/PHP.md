@@ -22,14 +22,15 @@ pearによるインストールはオペレーティング・システム上で�
 その解決策としてComposerが開発された。
 
 ### PECL(PHP Extension Community Library)はPHPエクステンションを配布するWebサイトの名前であり、パッケージング管理ツールのpearのことでもある。ピクルと発音する。peclコマンドは内部でpearを利用している。  
-※拡張モジュール(PHPエクステンション)... PHPの機能を拡張するためのモジュール。 
+※PHPエクステンション(拡張モジュール)... PHPの機能を拡張するためのモジュール。 
 
 PHPエクステンションを読み込む方法は2通りあり、  
-コンパイル時にPHPに組み込むか、DLLとして読む込むかである。  
+PHPのコンパイル時に静的に組み込む(http://php.net/manual/ja/install.pecl.static.php)か、so(dll)として読む込むかである。  
 
-DLLとして読み込む場合、php.iniで指定するか、スクリプトの中でdl()関数を用いる。  
+so(dll)として読み込む場合、php.iniで指定するか、スクリプトの中でdll()関数を用いる。  
 現在ロードされているモジュールは、get_loaded_extensions()関数を使うことによって取得できる。  
 
+##### pecl install (so(dll)として読む込む)
 `pecl install`は「*.soファイルを生成して所定の場所(extension_dir)に置く」という動作をしている。  
 (extension_dirがどこかわからない場合はphp -i | grep -i extension_dirで調べられる。)  
 
@@ -57,17 +58,17 @@ $ sudo yum install libmemcached-devel
 # エクステンションのソースコードを取得
 $ git clone -b php7 --depth 1 https://github.com/php-memcached-dev/php-memcached
 ```
-3. configureスクリプトの作成  
-configureスクリプトはUnix系の環境でPHPをコンパイルする際に用いられるスクリプト
+3. configureスクリプトの作成【参考】http://engineering.otobank.co.jp/entry/2015/02/19/124500  
+phpize... PHPに静的に組み込みなおす必要なく、エクステンションだけをコンパイルできるconfigureスクリプトを作成できるコマンド【参考】http://hlis-toproad.com/blog/2015/02/24/338/
 ```
 $ cd php-memcached
 $ phpize
 ```
-4. configureスクリプト実行
+4. configureスクリプト実行しMakeファイルを作成
 ```
 $ ./configure
 ```
-5. コンパイル  
+5. Makeファイルを使ってコンパイル  
 ```
 $ make
 ```

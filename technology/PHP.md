@@ -120,31 +120,32 @@ https://qiita.com/atwata/items/5ba72d3d881a81227c2a
 http://blog.comnect.jp.net/blog/122  
 ```
 1. composer.jsonにロード方式とロード対象を記載する
-ロード方式は、PSR-4, PSR-0, classmap, files がある。
-・PSR-4... 名前空間に対応するベースディレクトリを指定
-・PSR-0... 指定した名前空間ディレクトリがベースディレクトリ内に存在する
-・classmap... 読み込みたいディレクトリやファイルパスを指定
-・files... ?
+ ロード方式は、PSR-4, PSR-0, classmap, files がある。
+ ・PSR-4... 名前空間に対応するベースディレクトリを指定
+ ・PSR-0... 指定した名前空間ディレクトリがベースディレクトリ内に存在する
+ ・classmap... 読み込みたいディレクトリやファイルパスを指定
+ ・files... ?
 
 2. composer update(あるいはcomposer dump-autoload)を実行する
-ロード方式ごとに、ロード対象定義ファイルが作成される。
-・PSR-4... autoload_psr4.php
-・PSR-0... autoload_namespaces.php
-・classmap... autoload_classmap.php
-・files... autoload_file.php(?)
+ ロード方式ごとに、ロード対象定義ファイルが作成される。
+ ・PSR-4... autoload_psr4.php
+ ・PSR-0... autoload_namespaces.php
+ ・classmap... autoload_classmap.php
+ ・files... autoload_file.php(?)
 
-このタイミングでautoload.phpという、オートローダー関数をrequireするファイルが作成される。
+ このタイミングでautoload.phpという、オートローダー関数をrequireするファイルが作成される。
 
 3. オートローダーを利用したいクラスで「require '/vender/autoload.php'」する
 　　　　↓
-autoload.phpがrequireされると、autoload.php内で「require /vender/composer/autoload.php」される
+ autoload.phpがrequireされると、autoload.php内で「require /vender/composer/autoload.php」される
 　　　　↓
-autoload_real.phpのgetLoaderスタティックメソッドがコールされる
+ autoload_real.phpのgetLoaderスタティックメソッドがコールされる
 　　　　↓
-¥comopser¥Autoload¥ClassLoaderのインスタンスを生成し、ロード対象定義ファイルの内容をプロパティとしてセットし、ClassLoaderのregisterメソッドをコールする
+ ¥comopser¥Autoload¥ClassLoaderのインスタンスを生成し、ロード対象定義ファイルの内容をプロパティとしてセットし、
+ ClassLoaderのregisterメソッドをコールする
 　　　　↓
-registerメソッドでオートローダー関数のコールバック関数にClassLoaderのloadClassメソッドを定義する
-※loadClassメソッドは、ClassLoaderのプロパティとしてセットしたロード対象定義ファイルを利用して、クラスをインクルードする
+ registerメソッドでオートローダー関数のコールバック関数にClassLoaderのloadClassメソッドを定義する
+ ※loadClassメソッドは、ClassLoaderのプロパティとしてセットしたロード対象定義ファイルを利用して、クラスをインクルードする
 
 ```
 

@@ -126,7 +126,26 @@ http://blog.comnect.jp.net/blog/122
 ・classmap... 読み込みたいディレクトリやファイルパスを指定
 ・files... ?
 
-2. composer update(あるいはcomposer dump-autoload)
+2. composer update(あるいはcomposer dump-autoload)を実行する
+ロード方式ごとに、ロード対象定義ファイルが作成される。
+・PSR-4... autoload_psr4.php
+・PSR-0... autoload_namespaces.php
+・classmap... autoload_classmap.php
+・files... autoload_file.php(?)
+
+このタイミングでautoload.phpという、オートローダー関数をrequireするファイルが作成される。
+
+3. オートローダーを利用したいクラスで「require '/vender/autoload.php'」する
+　　　　↓
+autoload.phpがrequireされると、autoload.php内で「require /vender/composer/autoload.php」される
+　　　　↓
+autoload_real.phpのgetLoaderスタティックメソッドがコールされる
+　　　　↓
+¥comopser¥Autoload¥ClassLoaderのインスタンスを生成し、ロード対象定義ファイルの内容をプロパティとしてセットし、ClassLoaderのregisterメソッドをコールする
+　　　　↓
+registerメソッドでオートローダー関数のコールバック関数にClassLoaderのloadClassメソッドを定義する
+※loadClassメソッドは、ClassLoaderのプロパティとしてセットしたロード対象定義ファイルを利用して、クラスをインクルードする
+
 ```
 
 # Composer
@@ -151,4 +170,5 @@ comoser.jsonには、ダウンロードしたいライブラリ名とバージ�
 
 update や install でglobalオプションをつけると、$COMPOSER_HOME/vender/bin配下にダウンロードする  
 
-Packagist - Composer用のpackage集約サイト  
+「composer dump-autoload」はオートローディングに関する情報ファイルを生成するコマンド。  
+【参考】https://qiita.com/eidera/items/3e0b2b41253e1563be46

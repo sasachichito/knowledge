@@ -148,6 +148,8 @@ http://blog.comnect.jp.net/blog/122
  ※loadClassメソッドは、ClassLoaderのプロパティとしてセットしたロード対象定義ファイルを利用して、クラスをインクルードする
 
 ```
+![PHP](/picture/PHP.png "PHP")
+
 
 # Composer
 

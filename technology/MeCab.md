@@ -63,7 +63,7 @@ $ mecab -u ユーザー辞書
 $ echo `mecab-config --dicdir`"/mecab-ipadic-neologd"
 ```
 
-- ユーザー辞書を作成する  
+- ユーザー辞書を作成する  
 以下の、「作成したCSVファイル」というのが、独自の追加設定となる。
 ```
 $ /usr/lib/mecab/mecab-dict-index \
@@ -74,7 +74,7 @@ $ /usr/lib/mecab/mecab-dict-index \
   作成したCSVファイル
 ```
 
-- システム辞書に直接独自の設定を追加する  
+- システム辞書に直接独自の設定を追加する  
 mecab-dict-indexを使うか、辞書を再度makeする。  
 makeの場合、**自動的にフォルダ内の拡張子がCSVのファイルが辞書に追加される**
 ```

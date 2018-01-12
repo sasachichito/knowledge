@@ -1,23 +1,19 @@
-参考 https://shimi-dai.com/install-mecab-on-linux/
+参考 https://shimi-dai.com/install-mecab-on-linux/  
 
-【Gitをインストールする】
+# インストール
+Dockerfileの例  
+```
+# git
 RUN apt-get install -y git
-↓
-↓
-↓
-【MeCabをインストールする】
-MeCabはオープンソースの形態素解析エンジン
-すごいざっくり説明すると「文章を意味単位で単語にぶつ切りにする」ライブラリ
-RUN git clone https://github.com/taku910/mecab.git \
-    && cd mecab/mecab \
-    && ./configure  --enable-utf8-only \
-    && make && make check \
-    && make install \
-    && ldconfig
-↓
-↓
-↓
-【php_MeCabをインストールする】
+
+# mecab core library
+RUN apt-get update -y \
+    && apt-get install -y \
+    libmecab-dev \
+    mecab-ipadic \
+    mecab-ipadic-utf8 \
+    mecab 
+    
 # php-mecab
 RUN git clone https://github.com/rsky/php-mecab.git \
     && cd php-mecab/mecab \
@@ -28,12 +24,7 @@ RUN git clone https://github.com/rsky/php-mecab.git \
     && docker-php-ext-enable mecab \
     && cd .. \
     && rm -rf php-mecab
-↓
-↓
-↓
-【辞書をダウンロードし登録する】★ここでエラーになっている？
-デフォルトのままだと、微妙に違和感のある区切りかたをしたりするので、
-より賢い辞書を使いましょう。とのこと。
+
 # mecab辞書
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git \
     && cd mecab-ipadic-neologd/ \
@@ -41,4 +32,31 @@ RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git \
     && ./bin/install-mecab-ipadic-neologd -n -y \
     && cd .. \
     && rm -rf mecab-ipadic-neologd
+```
+# 辞書  
+ユーザー辞書とシステム辞書がある  
+【参考】https://qiita.com/hiro0217/items/cfcf801023c0b5e8b1c6  
+
+まずはMeCabの設定を確認するため`mecabrc`ファイルを見る。(今回は/etc/mecabrcにあった)  
+`dicdir = `でシステム辞書を指定、  
+`userdic = `でユーザー辞書を指定している。  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

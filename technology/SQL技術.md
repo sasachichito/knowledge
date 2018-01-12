@@ -78,4 +78,25 @@ GROUP BY std_id;
 出力結果となるMAX関数の結果を操作している。  
 
 
-# 
+# 自己結合
+```
+SELECT * FROM product t1, product t2;
+```
+上記で直積を得られる。  
+```
+SELECT * FROM product t1, product t2 WHERE t1.product_name <> t2.product_name;
+```
+名前の重複を無くす。  
+```
+SELECT * FROM product t1, product t2 WHERE t1.product_name > t2.product_name;
+```
+組み合わせを得るために、順番を付ける。  
+
+<>や<を利用して同テーブルを結合することを「自己非等値結合」という。  
+
+
+
+
+
+
+

@@ -52,4 +52,29 @@ FROM product tp WHERE tp.product_id IN ('001','002');
 上記は、clientテーブルで商品ID 001,002が「status = 1 (処理済み)」か確認し、  
 処理済みであれば○、そうでなければ×というカラムを出力している。
 
+HAVING構文の代わりに利用できる。
+```
+SELECT
+	std_id,
+	CASE WHEN COUNT(*) = 1 -- 一つのクラブに専念する学生の場合 
+		THEN MAX(club_id)
+		ELSE MAX(
+			CASE WHEN main_club_flg = 'Y' 
+				THEN club_id
+				ELSE NULL
+			END
+			)
+  END AS main_club
+FROM
+	StudentClub 
+GROUP BY std_id;
+ミック. 達人に学ぶ SQL徹底指南書. 翔泳社. Kindle 版.
+```
+上記は、StudentClubテーブルを生徒IDでグルーピングし、一行しかない（一つのクラブに所属している）生徒と、複数行ある（複数のクラブに所属）生徒  
+で出力結果を分けている。  
+ポイントはWHENの条件や、THEN,ELSEの出力を全て集約関数で行っているところ。  
+複数のクラブに所属している生徒はELSEの出力となるが、そこでグループ化された複数行にさらにCASE式を適用させ、  
+出力結果となるMAX関数の結果を操作している。  
+
+
 # 

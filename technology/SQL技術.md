@@ -64,7 +64,7 @@ SELECT
 				ELSE NULL
 			END
 			)
-  END AS main_club
+	END AS main_club
 FROM
 	StudentClub 
 GROUP BY std_id;

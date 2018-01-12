@@ -18,7 +18,7 @@ CASE WHEN color = 'green' THEN 'YES' ELSE 'NO' END AS '緑色？',
 CASE WHEN color = 'blue' THEN 'YES' ELSE 'NO' END AS '青色？'
 FROM product;
 ```
-のように書くことで、結果にcolor列ではなく、color列が水平展開された独自のカラムを出力できる。  
+のように書くことで、結果にcolor列ではなく、color列が水平展開された独自のカラムを出力できる。  
 表を作成するときなどは便利である。  
 
 また、関数に与えるデータを操作し、目的の結果を得ることもできる。  
@@ -40,9 +40,16 @@ ELSE price END;
 ```
 上記は、価格が150円未満のレコードは100円に、150円ちょうどのレコードは110円に、それ以外(151円以上)のレコードはそのままとしている。  
 
-
-
-
-
+テーブルのマッチングに利用できる。
+```
+SELECT 
+CASE WHEN EXISTS 
+(SELECT * FROM client tc WHERE tc.id = aaa AND tc.status = 1 AND tc.product_id = tp.product_id)
+THEN '○' 
+ELSE '×' END AS 'クライアントid「aaa」で処理済み' 
+FROM product tp WHERE tp.product_id IN ('001','002');
+```
+上記は、clientテーブルで商品ID 001,002が「status = 1 (処理済み)」か確認し、  
+処理済みであれば○、そうでなければ×というカラムを出力している。
 
 # 

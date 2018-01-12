@@ -41,14 +41,29 @@ http://www.mwsoft.jp/programming/nlp/mecab_dictionary_customize.html
 
 まずはMeCabの設定を確認するため`mecabrc`ファイルを見る。(今回は/etc/mecabrcにあった)  
 `dicdir = `でシステム辞書を指定、  
-`userdic = `でユーザー辞書を指定している。  
+`userdic = `でユーザー辞書を指定している   
+どちらもmecabコマンド実行時に動的に指定できる。  
+```
+$ mecab -d システム辞書
+$ mecab -u ユーザー辞書
+```
 
 任意のシステム辞書をベースにして、独自の追加設定を反映したものがユーザー辞書となる。  
 
 形態素解析をする時、システム辞書は必ず利用され、1度に1つのシステム辞書しか指定できない。  
 ユーザ辞書は任意で使用し、1度に複数（カンマ区切り）利用することもできる。  
 
-- ユーザー辞書を作成する  
+- システム辞書をインストールする  
+上記のDockerfileでは、mecab-ipadic-NEologd※というシステム辞書をインストールしている。  
+※https://github.com/neologd/mecab-ipadic-neologd/blob/master/README.ja.md  
+`./bin/install-mecab-ipadic-neologd -n -y -p インストールパス`  
+このインストールコマンドの-pを省略すると、`mecab-config`コマンドで指定された場所へインストールされる。  
+その場所は以下で確認できる。
+```
+$ echo `mecab-config --dicdir`"/mecab-ipadic-neologd"
+```
+
+- ユーザー辞書を作成する  
 以下の、「作成したCSVファイル」というのが、独自の追加設定となる。
 ```
 $ /usr/lib/mecab/mecab-dict-index \
@@ -61,7 +76,7 @@ $ /usr/lib/mecab/mecab-dict-index \
 
 - システム辞書に直接独自の設定を追加する  
 mecab-dict-indexを使うか、辞書を再度makeする。  
-makeの場合、**自動的にフォルダ内の拡張子がCSVのファイルが辞書に追加される
+makeの場合、**自動的にフォルダ内の拡張子がCSVのファイルが辞書に追加される**
 ```
 # 前に作ったname.csvをIPA辞書の配下に置く
 $ cp name.csv mecab-ipadic-2.7.0-20070801/

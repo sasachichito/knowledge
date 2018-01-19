@@ -11,6 +11,6 @@ HTMLを処理するサーバー側でそのコードポイントが表す文字�
 コードポイントで16進数を使う場合はxをつけて、&#xコードポイント; と書く。  
 
 XML Schemaと呼ばれるDTDに代わるルールがある。  
-XMLのスキーマを定義したXSDファイルを作成することで、ルールを作成する。  
+XMLのスキーマを定義したXSDファイルを作成することで、ルールを作成する。  
 【参考】https://www.mlab.im.dendai.ac.jp/~yamada/web/xml/xmlschema.html  
 

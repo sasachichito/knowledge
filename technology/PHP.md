@@ -174,4 +174,51 @@ comoser.jsonには、ダウンロードしたいライブラリ名とバージ�
 update や install でglobalオプションをつけると、$COMPOSER_HOME/vender/bin配下にダウンロードする  
 
 「composer dump-autoload」はオートローディングに関する情報ファイルを生成するコマンド。  
-【参考】https://qiita.com/eidera/items/3e0b2b41253e1563be46
+【参考】https://qiita.com/eidera/items/3e0b2b41253e1563be46  
+
+# PHPUnit
+Mockを使用する場合、  
+PHPUnit標準のTestCaseクラスが提供するモック作成メソッドと  
+ComposerでインストールできるPHPライブラリMockeryを利用する方法がある。  
+  
+## Mockery  
+【参考】https://kore1server.com/202/Mockery+0.8.0+%E6%97%A5%E6%9C%AC%E8%AA%9E%E3%83%89%E3%82%AD%E3%83%A5%E3%83%A1%E3%83%B3%E3%83%88#creating-partial-mocks  
+モックの種類は6つ  
+- 名前付きモック  
+パラメーターの名前がついたモックオブジェクト  
+- クラスモック  
+パラメーターに指定した名前がクラス名の場合に、そのクラスを継承したモックオブジェクトが作成される。  
+指定のクラスがfinalである場合と、メソッドにfinalが指定されている場合は、挙動を設定しても無視される。  
+- エイリアスモック  
+指定したクラス名のエイリアスを、stdClassに対して作成して、そのstdClassオブジェクトを返却する。  
+一般的にはpublic staticメソッドをモックできるように使用する。  
+指定するクラス名は、その段階でまだロードされていない必要がある。  
+@runInSeparateProcess  
+@preserveGlobalState disabled  
+の二つのアノテーションをつけると、別プロセスでテストされるので解決される。  
+```  
+$mock = \Mockery::mock('alias:MyNamespace\MyClass');  
+```  
+- インスタンスモック  
+エイリアスモックとほぼ同じ。  
+エイリアスモックでは、一度モックに対して挙動を設定しても、新しくエイリアス名でnewすると、未設定状態のモックが返却されるのに対し、  
+インスタンスモックでは、挙動を設定した後は、エイリアス名でをnewするたびに同じ設定のモックが返却される。  
+```  
+$mock = \Mockery::mock('overload:MyNamespace\MyClass');  
+```  
+- パーシャル（部分）モック  
+一部のメソッドだけ挙動を設定できる。  
+```  
+$mock = \Mockery::mock('MyNamespace\MyClass[foo,bar]');  
+```  
+- プロキシ（代理）モック  
+finalクラスやfinal付きのメソッドの挙動を設定する必要がある場合に利用する。  
+しかし、型の名前が変わってしまうので、タイプヒントを利用しているとエラーになる。  
+```  
+$mock = \Mockery::mock(new Foo);  
+```  
+  
+  
+実装によっては、コンストラクタがプライベートになっている場合がある。  
+その場合はリフレクションをうまく利用してnewすることができる。  
+【参考】https://qiita.com/mpyw/items/b3d974c073e6484d51a4  

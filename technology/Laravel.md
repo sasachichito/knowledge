@@ -33,10 +33,7 @@ PHPのマジックメソッド__callStatic() がコールされる（Facadeク�
 http://php.net/manual/ja/language.oop5.overloading.php#object.callstatic  
 ↓  
 Facadeクラスの__callStatic()内で、実態クラスのgetFacadeAccessor()が返却する文字列で、  
-コンテナからmakeしインスタンスを取得する  
-↓  
-Facadeクラスの__callStatic()内で、コンテナから取得したインスタンスの静的メソッドAを実行し、
-結果を返却する
+コンテナでmakeし、取得したインスタンスの静的メソッドAを実行し、結果を返却する
 ```
 
 ## env

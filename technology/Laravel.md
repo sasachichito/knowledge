@@ -32,11 +32,12 @@ makeメソッドでクラス・インターフェース名を指定して、イ�
 PHPのマジックメソッド__callStatic() がコールされる（Facadeクラスに定義されている）  
 http://php.net/manual/ja/language.oop5.overloading.php#object.callstatic  
 ↓  
-Facadeクラスの__callStatic()で、実態クラスのgetFacadeAccessor()が返却する文字列で、  
-アプリケーションコンテナからmakeしインスタンスを取得する  
+Facadeクラスの__callStatic()内で、実態クラスのgetFacadeAccessor()が返却する文字列で、  
+コンテナからmakeしインスタンスを取得する  
 ↓  
-取得したインスタンスで、呼び出した静的メソッドAを実行する  
-```  
+Facadeクラスの__callStatic()内で、コンテナから取得したインスタンスの静的メソッドAを実行し、
+結果を返却する
+```
 
 ## env
 

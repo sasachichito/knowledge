@@ -76,4 +76,8 @@ AspectCustomizerはいくつか種類があり、様々なAOPを実現する。
 
 その他の方法としては  
 AspectAutoRegisterクラスをdiconファイルにコンポーネントタグで登録し、その記載の中でクラスのパターンを正規表現等で指定して  
-インターセプターやインタータイプを自動で適用できる。※InterfaceAspectAutoRegisterもある。
+インターセプターやインタータイプを自動で適用できる。※InterfaceAspectAutoRegisterもある。  
+  
+## S2JDBC  
+S2JDBCというインターフェースを実装したJDBCドライバマネージャーを使用する。  
+Java標準のjava.sql.DriverManagerクラスとの違いはわかっていない。  

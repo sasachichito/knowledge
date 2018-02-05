@@ -22,15 +22,35 @@ ENVの値によって実行モードが決定する。
 ビルドの段階でwarファイルに含めるenv.txtを切り替える運用方法も見られる。  
   
 ## SMART deploy  
-Seasar2が利用している、コンテナにコンポーネントを登録するタイミングが異なる三つの実行モードを切り替えることができる仕組みのこと。  
+コンポーネントを自動で登録できる機能（コンポーネントの自動登録）と、
+コンテナの初期化（コンポーネント登録）タイミングが異なる三つの実行モードを切り替えることができる仕組みのこと。  
 
 ## コンポーネントの自動登録  
-「ルートパッケージ」配下のクラスを、命名規則に従ってコンポーネントに登録できる。  
+SMART deployの仕組みで「ルートパッケージ」配下のクラスを、命名規則に従ってコンポーネントに登録できる。  
 「ルートパッケージ」はconvention.diconで定義する。  
 ※SMART deployに対応するのはルートパッケージ配下のコンポーネントに限定される。  
 自動登録の命名規則を定義したクラスは、creator.diconに列挙されている。  
   
-その他の方法としては  
+自動登録すると、コンポーネントは以下のどれかのグループに属する。  
+
+| コンポーネントグループ | 対応する命名規則定義クラス |
+|:-----------|:------------|
+|Action|ActionCreator|
+|Converter|ConverterCreator|
+|Dao|DaoCreator|
+|Dto|DtoCreator|
+|Dxl|DxoCreator|
+|Helper|HelperCreator|
+|Interceptor|InterceptorCreator|
+|Logic|LogicCreator|
+|Page|PageCreator|
+|Service|ServiceCreator|
+|Validator|ValidatorCreator|
+
+【参考】http://s2container.seasar.org/2.4/ja/S2.4SmartDeployConfig.html  
+  
+  
+SMART deploy以外の方法としては  
 ComponentAutoRegister（いくつか種類がある）クラスをdiconファイルにコンポーネントタグで登録し、  
 その記載の中でパッケージ名やJar名、クラス名を正規表現等で指定して、一括で登録する。  
   
@@ -69,10 +89,26 @@ InterTypeインターフェースを実装することで独自のインター�
 ## AOPの自動適用  
 前提として、コンポーネントの自動登録等で、自作のインターセプターやインタータイプをコンポーネントとして登録しておく。  
   
-コンポーネントの自動登録によって登録されたクラスにAOPを自動適用するためには  
-CustomizerChainクラスをcustomizer.diconにコンポーネントタグで登録し、その記載の中でaddCustomizerメソッドを呼び出す。  
-その引数にComponentCustomizerインターフェースを実装したクラス（AspectCustomizer）を指定する。  
-AspectCustomizerはいくつか種類があり、様々なAOPを実現する。  
+コンポーネントの自動登録によって登録された各グループのクラスにAOPを自動適用するためには  
+customizer.diconにCustomizerChainクラスをコンポーネントとして登録し、それにAOPを適用したいコンポーネントグループに対応したコンポーネント名をつける。  
+CustomizerChainコンポーネントのaddCustomizerメソッドでAspectCustomizerを登録する。  
+AspectCustomizerはComponentCustomizerインターフェースを実装したクラスで、いくつか種類があり様々なAOPを実現する。  
+
+| コンポーネントグループ | 対応するCustomizerChainコンポーネント名 |
+|:-----------|:------------|
+|Action|actionCustomizer|
+|Converter|converterCustomizer|
+|Dao|daoCustomizer|
+|Dto|dtoCustomizer|
+|Dxl|dxoCustomizer|
+|Helper|helperCustomizer|
+|Interceptor|logicCustomizer|
+|Logic|interceptorCustomizer|
+|Page|pageCustomizer|
+|Service|serviceCustomizer|
+|Validator|validatorCustomizer|
+
+【参考】http://s2container.seasar.org/2.4/ja/S2.4SmartDeployConfig.html  
 
 その他の方法としては  
 AspectAutoRegisterクラスをdiconファイルにコンポーネントタグで登録し、その記載の中でクラスのパターンを正規表現等で指定して  

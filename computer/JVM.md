@@ -1,4 +1,4 @@
-
+## ヒープとガベージコレクション  
 【参考】  
 http://gihyo.jp/dev/serial/01/jvm-arc/0009
 

@@ -39,7 +39,7 @@ SMART deployの仕組みで「ルートパッケージ」配下のクラスを�
 |Converter|ConverterCreator|
 |Dao|DaoCreator|
 |Dto|DtoCreator|
-|Dxl|DxoCreator|
+|Dxo|DxoCreator|
 |Helper|HelperCreator|
 |Interceptor|InterceptorCreator|
 |Logic|LogicCreator|
@@ -100,7 +100,7 @@ AspectCustomizerはComponentCustomizerインターフェースを実装したク
 |Converter|converterCustomizer|
 |Dao|daoCustomizer|
 |Dto|dtoCustomizer|
-|Dxl|dxoCustomizer|
+|Dxo|dxoCustomizer|
 |Helper|helperCustomizer|
 |Interceptor|logicCustomizer|
 |Logic|interceptorCustomizer|

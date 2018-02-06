@@ -29,7 +29,9 @@ jstack 708
 ```  
 jstack [プロセス番号]  
 ```  
-  
+#### ※システムスレッドについて  
+http://argius.hatenablog.jp/entry/2014/12/16/142115  
+
 ## GUIの利用  
 #### ・JDK付属のjconsoleを利用する。  
 【参考】https://qiita.com/frost_star/items/428cc9c2be4fc53deb91  

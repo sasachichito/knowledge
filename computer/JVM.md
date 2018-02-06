@@ -36,6 +36,10 @@ jstack [プロセス番号]
 ヒープやスレッド、オブジェクト等様々な情報を取得できる。  
 リモートのJavaプロセスにも接続できるので便利。  
   
+#### ・JDK付属のjvisualvmを利用する  
+【参考】https://jyn.jp/java-jvisualvm/  
+jconsoleの上位互換といったところか。  
+  
 ## 技術  
 #### jpsでTomcatのプロセスIDが見つからない  
 【参考】http://tksmd.hatenablog.com/entry/20110119/p1  

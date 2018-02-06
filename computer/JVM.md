@@ -53,7 +53,7 @@ jdk6u23 以前は /tmp 以下に固定で生成されていたが、jdk6u23 で�
 jps -J-Djava.io.tmpdir=/usr/java/tomcat/temp/   
 ```  
 
-### JVMとスレッド  
+## JVMとスレッド  
 JVMはプロセスである。  
 JVMが持つスレッドも、通常のプロセスとスレッドの関係に他ならない。  
   

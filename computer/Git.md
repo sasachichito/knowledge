@@ -36,7 +36,7 @@ https://git-scm.com/book/ja/v1/Git-サーバー-プロトコル
 
 ```
 # システムレベル /mingw64/etc/gitconfig
-[aaa@bbb msdb-gateway]$ git config --system -l
+$ git config --system -l
 http.sslcainfo=C:/Program Files/Git/mingw64/ssl/certs/ca-bundle.crt
 http.sslbackend=openssl
 diff.astextplain.textconv=astextplain
@@ -45,18 +45,18 @@ filter.lfs.smudge=git-lfs smudge -- %f
 filter.lfs.process=git-lfs filter-process
 filter.lfs.required=true
 credential.helper=manager
-[aaa@bbb msdb-gateway]$
+$
 
 
 # ユーザーレベル ~/.gitconfig
-[aaa@bbb msdb-gateway]$ git config --global -l
+$ git config --global -l
 credential.helper=manager
 core.autocrlf=false
-[aaa@bbb msdb-gateway]$
+$
 
 
 # リポジトリレベル .git/config
-[aaa@bbb .git]$ git config --local -l
+$ git config --local -l
 core.repositoryformatversion=0
 core.filemode=false
 core.bare=false
@@ -69,7 +69,7 @@ branch.develop.remote=origin
 branch.develop.merge=refs/heads/develop
 branch.feature/#9_create_es_mappingcommand.remote=origin
 branch.feature/#9_create_es_mappingcommand.merge=refs/heads/feature/#9_create_es_mappingcommand
-[aaa@bbb .git]$
+$
 ```
 
 ※同じプロパティがあった場合の優先順位 システムレベル < ユーザーレベル < リポジトリレベル  

@@ -1,1 +1,1 @@
-![MySQL](/picture/MySQL.png "MySQL")
+![MySQL](/Picture/MySQL.png "MySQL")

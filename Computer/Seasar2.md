@@ -115,7 +115,7 @@ AspectAutoRegisterクラスをdiconファイルにコンポーネントタグで
 インターセプターやインタータイプを自動で適用できる。※InterfaceAspectAutoRegisterもある。  
   
 ## S2JDBC  
-Seasar2で使われるJDBCのこと。(JDBCとは https://github.com/sasachichito/Knowledge/blob/master/computer/Java.md#jdbc)  
+Seasar2で使われるJDBCのこと。(JDBCとは https://github.com/sasachichito/Knowledge/blob/master/omputer/Java.md#jdbc)  
 Seasar2ではS2JDBCインターフェースを実装したJDBCドライバマネージャーを使用する。  
 Java標準のjava.sql.DriverManagerクラスとの違いはわかっていない。  
   

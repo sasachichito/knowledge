@@ -94,6 +94,21 @@ SELECT * FROM product t1, product t2 WHERE t1.product_name > t2.product_name;
 
 <>や<を利用して同テーブルを結合することを「自己非等値結合」という。  
 
+# 存在しなければインサート  
+セレクトインサートで利用できる。  
+MySQLではDUALという架空の表を利用できる。  
+```  
+INSERT INTO product SELECT 100,50 FROM DUAL WHERE NOT EXISTS (SELECT 1 FROM product WHERE id = 100 AND price = 50);  
+```  
+  
+# JOINを使ったアップデート  
+更新条件が更新対象とは別のテーブルにある場合に利用する。  
+```  
+UPDATE product t1  
+INNER JOIN order t2 ON t1.id = t2.product_id  
+SET t2.order_id = 20  
+WHERE t1.id = 100;  
+```  
 
 
 

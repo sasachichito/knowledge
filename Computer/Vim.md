@@ -141,3 +141,9 @@ http://vim-jp.org/vimdoc-ja/repeat.html#packages
 基本的にはプラグイン（ランタイムファイル(~.vim)とその他設定ファイル）をダウンロードして  
 runtimepathの通っているディレクトリに配置するだけで良い。  
 http://vim-jp.org/vimdoc-ja/usr_05.html#add-plugin
+
+### ctagsとは
+ファイルを指定して実行すると、そのインデックスを作成するソフトウェア。  
+Vimではctagsと連携してインデックスを利用し、補完やジャンプを行う。  
+
+Vimのtagsオプションでどのインデックスファイルを検索するか決定している。  

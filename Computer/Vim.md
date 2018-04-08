@@ -69,18 +69,32 @@ Exコマンド、制御構文、Vimに用意されている関数を使って、
 ・関数の作成  
 ・独自コマンドの作成  
 ができる。  
+~.vimファイル。  
 http://vim-jp.org/vimdoc-ja/usr_41.html#script  
 
 ### vimのプラグインとは
-vimスクリプトを書いて配布すれば、それはプラグインとなる。  
+vimスクリプトを書いて配布すれば、それはプラグインとなる。  
 プラグインを利用する側は、Vim起動時に動的にvimスクリプトを読み込むためそれをランタイムファイルとも呼ぶ。  
 
 Vimにデフォルトで付属しているプラグイン(ランタイムファイル)もある。  
+
+プラグインには2種類ある。  
+- グローバルプラグイン  
+全てのバッファに対して適用される。  
+
+- ファイルタイププラグイン  
+バッファのfiletypeオプション値に対応した名前である場合に適用される。  
+
 http://vim-jp.org/vimdoc-ja/usr_41.html#write-plugin  
 
 ### runtimepathとは
-
+ランタイムファイルを読み込むパス。  
+用途・目的によりランタイムファイルの配置場所が異なるので、runtimepathも複数ある。  
 http://vim-jp.org/vimdoc-ja/options.html#'runtimepath'
 
 ### Vimパッケージとは
+一つ以上のプラグインを含むディレクトリ。  
 http://vim-jp.org/vimdoc-ja/repeat.html#packages
+
+### プラグインを追加する
+http://vim-jp.org/vimdoc-ja/usr_05.html#add-plugin

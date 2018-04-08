@@ -83,7 +83,7 @@ Vimにデフォルトで付属しているプラグイン(ランタイムファ�
 全てのバッファに対して適用される。  
 
 - ファイルタイププラグイン  
-バッファのfiletypeオプション値に対応した名前である場合に適用される。  
+バッファのfiletypeオプション値に対応した名前であれば適用される。  
 
 http://vim-jp.org/vimdoc-ja/usr_41.html#write-plugin  
 
@@ -97,4 +97,7 @@ http://vim-jp.org/vimdoc-ja/options.html#'runtimepath'
 http://vim-jp.org/vimdoc-ja/repeat.html#packages
 
 ### プラグインを追加する
+プラグインの種類（グローバル or ファイルタイプ）や、Vimパッケージかどうかで配置場所が異なるが、  
+基本的にはプラグイン（ランタイムファイル(~.vim)とその他設定ファイル）をダウンロードして  
+runtimepathの通っているディレクトリに配置するだけで良い。  
 http://vim-jp.org/vimdoc-ja/usr_05.html#add-plugin

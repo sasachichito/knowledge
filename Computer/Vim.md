@@ -55,6 +55,32 @@ iかaで始まり、後ろにデリミタかブロック（単語、文、段落
 Vimはいくつかのモーション時にその座標に対してマークをつけている。※mコマンドで明示的にマークをつけることもできる。  
 `'`や`` ` ``に続けてマークを指定してその座標に移動できる。
 
-### vimrcとは
-### vimスクリプトとは
+### Vimのオプション
+Vimには動作設定のための内部変数とスイッチがあり、これをオプションという。  
+http://vim-jp.org/vimdoc-ja/options.html#options
+
+### vimrcとは  
+vimスクリプトである。  
+Vim起動時に読み込まれるフック。
+
+### vimスクリプトとは  
+Exコマンド、制御構文、Vimに用意されている関数を使って、  
+・オプションの設定  
+・関数の作成  
+・独自コマンドの作成  
+ができる。  
+http://vim-jp.org/vimdoc-ja/usr_41.html#script  
+
 ### vimのプラグインとは
+vimスクリプトを書いて配布すれば、それはプラグインとなる。  
+プラグインを利用する側は、Vim起動時に動的にvimスクリプトを読み込むためそれをランタイムファイルとも呼ぶ。  
+
+Vimにデフォルトで付属しているプラグイン(ランタイムファイル)もある。  
+http://vim-jp.org/vimdoc-ja/usr_41.html#write-plugin  
+
+### runtimepathとは
+
+http://vim-jp.org/vimdoc-ja/options.html#'runtimepath'
+
+### Vimパッケージとは
+http://vim-jp.org/vimdoc-ja/repeat.html#packages

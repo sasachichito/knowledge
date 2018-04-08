@@ -147,3 +147,6 @@ http://vim-jp.org/vimdoc-ja/usr_05.html#add-plugin
 Vimではctagsと連携してインデックスを利用し、補完やジャンプを行う。  
 
 Vimのtagsオプションでどのインデックスファイルを検索するか決定している。  
+
+### Vimのmakeコマンド
+Ex

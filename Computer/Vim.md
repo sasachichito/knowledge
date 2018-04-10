@@ -308,7 +308,7 @@ PHP用のスペル辞書があれば適用する。  
 Vim標準のコンパイラプラグインは'runtimepath'内の、`compiler/*.vim`として用意されている。  
 php.vimも用意されているので、アクティブ化する。  
 アクティブ化とはmakeprgオプションとerrorformatオプションをコンパイラプラグインの内容で設定することを言う。  
-php固有の設定なので、ファイルタイププラグイン`~/.vim/ftplugin/${filetype}/compiler.vim`を自作する。  
+php固有の設定なので、ファイルタイププラグイン`~/.vim/ftplugin/${filetype}/compiler.vim`を自作する。  
 その中で、以下のコマンドでアクティブ化する。  
 `compiler php`  
 さらに、  

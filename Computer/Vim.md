@@ -294,7 +294,8 @@ Vimはデフォルトでスペル辞書（英単語）を持っており、spell
   http://vim-jp.org/vimdoc-ja/insert.html#compl-omni-filetypes
   - スペル辞書の設定  
   PHP用のスペル辞書があるのか調査中。  
+- ファイル保存時にシンタックスチェックする  
 - スペルチェッカをONにする  
-PHP用のスペル辞書があれば適用する。  
+PHP用のスペル辞書があれば適用する。  
 - makeコマンドをPHP用にする  
 

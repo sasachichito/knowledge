@@ -286,7 +286,8 @@ Vimはデフォルトでスペル辞書（英単語）を持っており、spell
   外部コマンドとして`ctags -R`を実行する以下のキーマップを.vimrcで定義。  
   `nnoremap <F5> :!ctags -R<CR>`  
   - PHPのインクルードの設定  
-  - オムニ補完の設定  
+  デフォルトのincludeオプションが`include=\(require\|include\)\(_once\)\?`となっていたので特に設定なし。  
+  - オムニ補完の設定  
   PHPとSQLのオムニ補完用プラグインが標準で以下に用意されていたので特に設定なし。  
   `/usr/share/vim/vim80/autoload/phpcomplete.vim`  
   `/usr/share/vim/vim80/autoload/sqlcomplete.vim`  

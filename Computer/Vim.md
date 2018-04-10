@@ -312,5 +312,5 @@ php固有の設定なので、ファイルタイププラグイン`~/.vim/ftplug
 以下のコマンドでアクティブ化する。  
 `compiler php`  
 さらに、  
-`autocmd BufWritePost *.php make %`  
+`autocmd BufWritePost *.php make %`  
 でファイル保存時にコンパイラが走るように設定している。  

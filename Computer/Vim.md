@@ -100,6 +100,9 @@ Exコマンド`:set suffixsadd+=.rb`のように付与。
 Vimには動作設定のための内部変数とスイッチがあり、これをオプションという。  
 http://vim-jp.org/vimdoc-ja/options.html#options
 
+filetype関連のオプションは重要なのでチェック。  
+http://vim-jp.org/vimdoc-ja/filetype.html  
+
 ## vimrcとは  
 vimスクリプトである。  
 Vim起動時に読み込まれるフック。

@@ -290,7 +290,7 @@ Vimはデフォルトでスペル辞書（英単語）を持っており、spell
   `/usr/share/vim/vim80/autoload/phpcomplete.vim`  
   `/usr/share/vim/vim80/autoload/sqlcomplete.vim`  
   http://vim-jp.org/vimdoc-ja/insert.html#compl-omni-filetypes
-  - スペル辞書の設定
+  - スペル辞書の設定  
   PHP用のスペル辞書があるのか調査中。  
 - スペルチェッカをONにする
 PHP用のスペル辞書があれば適用する。  

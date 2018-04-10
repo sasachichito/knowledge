@@ -279,8 +279,16 @@ Vimはデフォルトでスペル辞書（英単語）を持っており、spell
 
 # PHP用にVimをカスタマイズする  
 ## TODOを列挙する
+- 基本設定する  
+ファイルタイプ自動判別と、ファイルタイププラグインのロードを有効化するため、.vimrcで以下を設定する。  
+`filetype plugin on`  
+http://vim-jp.org/vimdoc-ja/filetype.html  
 - インデント幅をPHP用にする  
-.vimrcで`filetype indent on`を設定し、`~/.vim/indent/php.vim`にインデントオプションを記載する。  
+.vimrcで`filetype indent on`とし、`~/.vim/indent/${filetype}.vim`にインデントオプションを記載する。  
+or  
+ファイルタイププラグイン`~/.vim/ftplugin/${filetype}/indent.vim`を自作し、インデントオプションを記載する。  
+今回は後者で設定する。  
+PHP用なので作成するのは`~/.vim/ftplugin/php/indent.vim`。  
 - 補完・ジャンプをPHP用にする
   - タグファイルの設定  
   外部コマンドとして`ctags -R`を実行する以下のキーマップを.vimrcで定義。  

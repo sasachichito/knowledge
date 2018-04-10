@@ -279,17 +279,17 @@ Vimはデフォルトでスペル辞書（英単語）を持っており、spell
 
 # PHP用にVimをカスタマイズする  
 ## TODOを列挙する
-- 基本設定する  
+- **基本設定する**  
 ファイルタイプ自動判別と、ファイルタイププラグインのロードを有効化するため、.vimrcで以下を設定する。  
 `filetype plugin on`  
 http://vim-jp.org/vimdoc-ja/filetype.html  
-- インデント幅をPHP用にする  
+- **インデント幅をPHP用にする**  
 .vimrcで`filetype indent on`とし、`~/.vim/indent/${filetype}.vim`にインデントオプションを記載する。  
 or  
 ファイルタイププラグイン`~/.vim/ftplugin/${filetype}/indent.vim`を自作し、インデントオプションを記載する。  
 今回は後者で設定する。  
 PHP用なので作成するのは`~/.vim/ftplugin/php/indent.vim`。  
-- 補完・ジャンプをPHP用にする
+- **補完・ジャンプをPHP用にする**
   - タグファイルの設定  
   外部コマンドとして`ctags -R`を実行する以下のキーマップを.vimrcで定義。  
   `nnoremap <F5> :!ctags -R<CR>`  
@@ -302,9 +302,9 @@ PHP用なので作成するのは`~/.vim/ftplugin/php/indent.vim`。
   http://vim-jp.org/vimdoc-ja/insert.html#compl-omni-filetypes
   - スペル辞書の設定  
   PHP用のスペル辞書があるのか調査中。    
-- スペルチェッカをONにする  
+- **スペルチェッカをONにする**  
 PHP用のスペル辞書があれば適用する。  
-- コンパイラをPHP用にする  
+- **コンパイラをPHP用にする**  
 Vim標準のコンパイラプラグインは'runtimepath'内の、`compiler/*.vim`として用意されている。  
 php.vimも用意されているので、アクティブ化する。  
 アクティブ化とはmakeprgオプションとerrorformatオプションをコンパイラプラグインの内容で設定することを言う。  

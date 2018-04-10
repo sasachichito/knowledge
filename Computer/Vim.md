@@ -310,7 +310,7 @@ php.vimも用意されているので、アクティブ化する。  
 アクティブ化とはmakeprgオプションとerrorformatオプションをコンパイラプラグインの内容で設定することを言う。  
 php固有の設定なので、ファイルタイププラグイン`~/.vim/ftplugin/${filetype}/compiler.vim`を自作する。  
 以下のコマンドでアクティブ化する。  
-`compiler php`  
+`compiler php`  
 さらに、  
 `autocmd BufWritePost *.php make %`  
 でファイル保存時にコンパイラが走るように設定している。  

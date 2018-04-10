@@ -301,9 +301,16 @@ PHP用なので作成するのは`~/.vim/ftplugin/php/indent.vim`。
   `/usr/share/vim/vim80/autoload/sqlcomplete.vim`  
   http://vim-jp.org/vimdoc-ja/insert.html#compl-omni-filetypes
   - スペル辞書の設定  
-  PHP用のスペル辞書があるのか調査中。  
-- ファイル保存時にシンタックスチェックする  
+  PHP用のスペル辞書があるのか調査中。    
 - スペルチェッカをONにする  
 PHP用のスペル辞書があれば適用する。  
-- makeコマンドをPHP用にする  
-
+- コンパイラをPHP用にする  
+Vim標準のコンパイラプラグインは'runtimepath'内の、`compiler/*.vim`として用意されている。  
+php.vimも用意されているので、アクティブ化する。  
+アクティブ化とはmakeprgオプションとerrorformatオプションをコンパイラプラグインの内容で設定することを言う。  
+php固有の設定なので、ファイルタイププラグイン`~/.vim/ftplugin/${filetype}/compiler.vim`を自作する。  
+以下のコマンドでアクティブ化する。  
+`compiler php`  
+さらに、  
+`autocmd BufWritePost *.php make %`  
+でファイル保存時にコンパイラが走るように設定している。  

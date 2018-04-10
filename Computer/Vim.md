@@ -211,6 +211,10 @@ http://vim-jp.org/vimdoc-ja/repeat.html#packages
 runtimepathの通っているディレクトリに配置するだけで良い。  
 http://vim-jp.org/vimdoc-ja/usr_05.html#add-plugin
 
+
+## イメージ  
+![Vim.png](../Picture/Vim.png "Vim.png")
+
 ## ctagsとは
 ファイルを指定して実行すると、そのインデックスを作成するソフトウェア。  
 作成されたインデックスファイルをタグファイルと呼ぶ。  

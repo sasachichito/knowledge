@@ -237,7 +237,7 @@ Vimは以下のファイルやディレクトリを読み込み対象スクリ�
 ```   
 Vimの初期化手順.   
 **① ~/.vimrcを実行する.   
-② "packpath"配下の"pack/*/start" 配下をサブディレクトリを含めスキャンし、読み込み対象スクリプトがあればそのパスを"runtimepath"に追加する.   
+② "packpath"配下の"pack/*/start" ディレクトリの下の全てのディレクトリをスキャンし、読み込み対象スクリプトがあればそのパスを"runtimepath"に追加する.   
 ③ "runtimepath"配下の読み込み対象スクリプトを実行する.**   
 
 http://vim-jp.org/vimdoc-ja/options.html#'runtimepath'  

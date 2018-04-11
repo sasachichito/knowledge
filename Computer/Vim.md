@@ -211,8 +211,37 @@ http://vim-jp.org/vimdoc-ja/repeat.html#packages
 runtimepathの通っているディレクトリに配置するだけで良い。  
 http://vim-jp.org/vimdoc-ja/usr_05.html#add-plugin
 
+## Vimの初期化処理
+Vimは以下のファイルやディレクトリを読み込み対象スクリプトと定めている.   
+読み込みは上から順に実行される.   
+ディレクトリの場合は基本的には直下の〜.vimが対象となるが、ディレクトリによってはオプションや変数によりフィルタされたりサブディレクトリまで読み込む場合がある.   
+例えば`ftplugin/`や`syntax/`の場合はfiletypeオプションに対応するvimスクリプトだけが実行される.   
+```   
+          filetype.vim  ファイル名によるファイルタイプの決定      
+          scripts.vim   ファイルの内容によるファイルタイプの決定      
+          autoload/     自動的に読み込まれるスクリプト      
+          colors/       色テーマ定義ファイル      
+          compiler/     コンパイラ定義ファイル      
+          doc/          ヘルプドキュメント      
+          ftplugin/     ファイルタイププラグイン      
+          indent/       インデントスクリプト      
+          keymap/       キーマップ定義ファイル      
+          lang/         翻訳版メニュー      
+          menu.vim      GUI版メニュー      
+          pack/         パッケージ      
+          plugin/       プラグインスクリプト      
+          print/        印刷用のファイル      
+          spell/        スペルチェック用のファイル      
+          syntax/       文法ファイル      
+          tutor/        Vimtutor用ファイル      
+```   
+Vimの初期化手順.   
+① ~/.vimrcを実行する.   
+② "packpath"配下の"pack/*/start" 配下をサブディレクトリを含めスキャンし、読み込み対象スクリプトがあればそのパスを"runtimepath"に追加する.   
+③ "runtimepath"配下の読み込み対象スクリプトを実行する.   
 
-## イメージ  
+
+## Vimのイメージ  
 ![Vim.png](../Picture/Vim.png "Vim.png")
 
 ## ctagsとは

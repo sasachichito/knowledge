@@ -240,7 +240,7 @@ Vimの初期化手順.
 ② "packpath"配下の"pack/*/start" 配下をサブディレクトリを含めスキャンし、読み込み対象スクリプトがあればそのパスを"runtimepath"に追加する.   
 ③ "runtimepath"配下の読み込み対象スクリプトを実行する.**   
 
-
+http://vim-jp.org/vimdoc-ja/options.html#'runtimepath'  
 ## Vimのイメージ  
 ![Vim.png](../Picture/Vim.png "Vim.png")
 

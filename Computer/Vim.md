@@ -343,3 +343,9 @@ php固有の設定なので、ファイルタイププラグイン`~/.vim/ftplug
 さらに、  
 `autocmd BufWritePost *.php make %`  
 でファイル保存時にコンパイラが走るように設定している。  
+- **便利なプラグインをパッケージとして導入する**  
+「パッケージとして管理する」とは、先述したVimの初期化手順②でプラグインへのパスを"runtimepath"に追加することを指す。  
+つまり"packpath"配下で`/pack/パッケージ名/start/ディレクトリ/読み込み対象スクリプト`となるよう配置する。  
+  - NERDTREE https://github.com/scrooloose/nerdtree  
+  gitのサブモジュールとして管理する。  
+  http://tyru.hatenablog.com/entry/2017/12/20/035142  

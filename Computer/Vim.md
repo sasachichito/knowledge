@@ -317,11 +317,7 @@ Vimはデフォルトでスペル辞書（英単語）を持っており、spell
 `filetype plugin on`  
 http://vim-jp.org/vimdoc-ja/filetype.html  
 - **インデント幅をPHP用にする**  
-.vimrcで`filetype indent on`とし、`~/.vim/indent/${filetype}.vim`にインデントオプションを記載する。  
-or  
-ファイルタイププラグイン`~/.vim/ftplugin/${filetype}/indent.vim`を自作し、インデントオプションを記載する。  
-今回は後者で設定する。  
-PHP用なので作成するのは`~/.vim/ftplugin/php/indent.vim`。  
+.vimrcで`filetype indent on`とし、`~/.vim/indent/${filetype}.vim`にインデントオプションを記載する。    
 - **補完・ジャンプをPHP用にする**
   - タグファイルの設定  
   外部コマンドとして`ctags -R`を実行する以下のキーマップを.vimrcで定義。  

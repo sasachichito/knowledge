@@ -346,6 +346,9 @@ php固有の設定なので、ファイルタイププラグイン`~/.vim/ftplug
 - **便利なプラグインをパッケージとして導入する**  
 「パッケージとして管理する」とは、先述したVimの初期化手順②でプラグインへのパスを"runtimepath"に追加することを指す。  
 つまり"packpath"配下で`/pack/パッケージ名/start/ディレクトリ/読み込み対象スクリプト`となるよう配置する。  
+さらにそれをgitのサブモジュールとして管理する。（http://tyru.hatenablog.com/entry/2017/12/20/035142)  
   - NERDTREE https://github.com/scrooloose/nerdtree  
-  gitのサブモジュールとして管理する。  
-  http://tyru.hatenablog.com/entry/2017/12/20/035142  
+  ディレクトリツリーを表示するプラグイン。  
+  拡張用にNERDTREEは内部で、"runtimepath"配下の`nerdtree_plugin`ディレクトリ内のvimスクリプトを読み込むように設定している。  
+  これを利用した、https://github.com/jistr/vim-nerdtree-tabs もパッケージとして導入する。  
+ 

@@ -160,6 +160,9 @@ s:      現在のスクリプトファイルにローカル
   
 http://vim-jp.org/vimdoc-ja/map.html#script-local  
 
+#### 関数を定義
+http://vim-jp.org/vimdoc-ja/eval.html#user-functions
+
 #### SIDとは   
 スクリプトIDのことで、スクリプトスコープ関数をマップするときに利用する。   
 aaa.vimと、bbb.vimの両方で、自身のファイル名をechoするfunction s:ccc()が宣言されていてもスクリプトスコープなので問題ない。   

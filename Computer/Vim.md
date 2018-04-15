@@ -131,7 +131,7 @@ http://vim-jp.org/vimdoc-ja/usr_41.html#script
 #### vimスクリプトのスコープ  
 Vimは変数名、関数名の前のプレフィックスをでスコープを判定している。  
   
-#### ・変数の場合  
+#### ・変数のスコープ  
 ```
 g:      グローバル  
 b:      現在のバッファにローカル   
@@ -147,7 +147,7 @@ v:      組み込み変数
 - 関数の外  
 グローバルスコープ  
   
-#### ・関数の場合  
+#### ・関数のスコープ  
 ```
 g:      グローバル  
 s:      現在のスクリプトファイルにローカル  
@@ -162,6 +162,9 @@ http://vim-jp.org/vimdoc-ja/map.html#script-local
 
 #### 関数を定義
 http://vim-jp.org/vimdoc-ja/eval.html#user-functions
+
+#### コマンドを定義
+http://vim-jp.org/vimdoc-ja/usr_40.html#40.2
 
 #### SIDとは   
 スクリプトIDのことで、スクリプトスコープ関数をマップするときに利用する。   

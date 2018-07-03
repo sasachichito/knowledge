@@ -74,5 +74,5 @@ https://teratail.com/questions/115164
 http://education.yachinco.net/tips/java/01/4.html  
 ・equalsがfalseを返却する場合、それらhashCodeは異なるハッシュ値を返さなくても構わない(しかしハッシュアルゴリズムを利用したクラスのパフォーマンスが向上しない)  
 ・Lombokでハッシュ計算ができる？@EqualsAndHashCodeアノテーションやら  
-・一番よいのはObjects.hashCodeメソッドを使う？  
+・一番よいのはObjects.hashメソッドを使う  
 https://qiita.com/frost_star/items/8a5d711f9090f0e24f51  

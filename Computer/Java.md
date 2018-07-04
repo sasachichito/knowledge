@@ -83,7 +83,7 @@ https://qiita.com/frost_star/items/8a5d711f9090f0e24f51
 比較対象オブジェクトのプロパティ一覧出してそれぞれを、IsEqualクラスのmatchesメソッドで比較している。  
 matchesメソッドはプロパティのequalsメソッドを実行している。  
 ```  
-・比較対象（DisplayResultEntity）のプロパティの一覧をそれぞれ取得  
+・比較対象のプロパティの一覧をそれぞれ取得  
 ・それぞれの一覧の数や名前に差分がないか比較  
 ・一つづつequalsメソッドで比較  
 ```  

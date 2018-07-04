@@ -69,10 +69,21 @@ https://teratail.com/questions/115164
 これを繰り返すと起点メソッドに問題発生が伝わり、アプリケーションが異常であると扱われる。  
   
 # equalsメソッドとhashCodeメソッドのオーバーライド  
-・hashSetに格納したり、hashMapのキーとして使うならequalsメソッドとともにhashCodeメソッドも実装しなければならない  
-・equalsがtrueを返却する場合、それらhashCodeは必ず同じハッシュ値を返さなければならない(返さないとハッシュアルゴリズムを利用したクラスが正常に動作しない)  
+##### equalsをオーバーライドしていない自作のクラスは、これらのメソッドは何をしている？  
+＝＝で比較しているだけ、つまり同じインスタンスじゃないとエラーになる。  
+##### hashSetに格納したり、hashMapのキーとして使うならequalsメソッドとともにhashCodeメソッドも実装しなければならない  
+##### equalsがtrueを返却する場合、それらhashCodeは必ず同じハッシュ値を返さなければならない(返さないとハッシュアルゴリズムを利用したクラスが正常に動作しない)  
 http://education.yachinco.net/tips/java/01/4.html  
-・equalsがfalseを返却する場合、それらhashCodeは異なるハッシュ値を返さなくても構わない(しかしハッシュアルゴリズムを利用したクラスのパフォーマンスが向上しない)  
-・Lombokでハッシュ計算ができる？@EqualsAndHashCodeアノテーションやら  
-・一番よいのはObjects.hashメソッドを使う  
+##### equalsがfalseを返却する場合、それらhashCodeは異なるハッシュ値を返さなくても構わない(しかしハッシュアルゴリズムを利用したクラスのパフォーマンスが向上しない)  
+##### Lombokでハッシュ計算ができる？@EqualsAndHashCodeアノテーションをクラスにつけてあげる  
+##### IDEにequalsとhashCodeメソッドの自動生成機能がある  
+##### 自前でオーバーライドする場合はObjects.hashメソッドを使う  
 https://qiita.com/frost_star/items/8a5d711f9090f0e24f51  
+##### samePropertyValuesAsではどんな比較をしている？  
+比較対象オブジェクトのプロパティ一覧出してそれぞれを、IsEqualクラスのmatchesメソッドで比較している。  
+matchesメソッドはプロパティのequalsメソッドを実行している。  
+```  
+・比較対象（DisplayResultEntity）のプロパティの一覧をそれぞれ取得  
+・それぞれの一覧の数や名前に差分がないか比較  
+・一つづつequalsメソッドで比較  
+```  

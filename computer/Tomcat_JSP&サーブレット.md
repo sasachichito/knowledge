@@ -22,7 +22,7 @@ Tomcatの設定ファイル。
 ・バルブの設定  
 等。  
 
-![イメージとコンテナ](/Picture/Tomcat_JSP&サーブレット.png "tomcat")
+![イメージとコンテナ](/picture/Tomcat_JSP&サーブレット.png "tomcat")
 
 ## 技術
 通常、javaコマンドでプログラムが実行された場合、JVMが起動し、実行され、JVMは無くなる。  

@@ -16,7 +16,7 @@ Dockerイメージレイヤ群の最上位に書き込み可能なレイヤを�
 コンテナの最上位レイヤをコミットし読み取り専用にする。
 
 
-![イメージとコンテナ](/Picture/Docker.png "イメージとコンテナ")
+![イメージとコンテナ](/picture/Docker.png "イメージとコンテナ")
   
 ## DockerfileとDockerCompose.yml
 - Dockerfile  
@@ -36,14 +36,14 @@ Linuxは、認識しているNICをポートにすることでブリッジにす
 パケットがグローバルIP宛に来たときは、単純にブリッジホストが受け取るので、ポートフォワードでコンテナのデーモンにアクセスする。  
 
 
-![ネットワーク](/Picture/Docker2.png "ネットワーク")
+![ネットワーク](/picture/Docker2.png "ネットワーク")
 
 
 ## docker run の i, tオプション
 
-![i,tオプション](/Picture/Docker3.png "i,tオプション")
+![i,tオプション](/picture/Docker3.png "i,tオプション")
 
 
 ## Docker swarm
 
-![swarm](/Picture/Docker4.png "swarm")
+![swarm](/picture/Docker4.png "swarm")

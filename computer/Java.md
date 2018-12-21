@@ -176,3 +176,16 @@ floatとdoubleは内部で数値を2進数で管理している。
 そこでBigDecimal型が使える。
 BigDecimalは内部でも浮動小数点を利用する。そのため小数点以下を2進数で持つ必要がなく、誤差が起きない。
 ```
+
+# 関数型インターフェース  
+java8 api https://docs.oracle.com/javase/jp/8/docs/api/  
+http://www.ne.jp/asahi/hishidama/home/tech/java/functionalinterface.html#h_Function  
+  
+# ラムダ式  
+  
+# メソッド参照・コンストラクタ参照  
+http://pppurple.hatenablog.com/entry/2016/09/11/212621  
+  
+# ストリームAPI  
+http://backpaper0.github.io/2014/10/04/stream_collect.html  
+  

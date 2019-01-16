@@ -165,7 +165,7 @@ http://blog.comnect.jp.net/blog/122
  ※loadClassメソッドは、ClassLoaderのプロパティとしてセットしたロード対象定義ファイルを利用して、クラスをインクルードする
 
 ```
-![PHP](/Picture/PHP.png "PHP")
+![PHP](/picture/PHP.png "PHP")
 
 
 # Composer
@@ -268,6 +268,6 @@ Aクラスのaメソッドをコールバック関数にするため、aとい�
 ３．アプリケーションのルートディレクトリやログのシンボリックリンクの向き先を切り替える  
 
 ## データベースアクセス
-![PHP2](/Picture/PHP2.png "PHP2")
+![PHP2](/picture/PHP2.png "PHP2")
 
  

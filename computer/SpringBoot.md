@@ -87,7 +87,7 @@ public class MyRepositoryTestImple implements MyRepository {
 コンフィギュレーションクラスを使った場合でも同様にうまくいくと思われる。  
 JunitでテストするときはJVMの起動引数の代わりにテストクラスに@ActiveProfiles("test")をつけると楽。
 
-複数のテスト実装Beanを登録しておいて、動的に目的のBeanを取得したい場合は、@Qualifierをつけておいて利用する側でListやMapで受け取る方法がある。  
+複数のテスト実装Beanを登録しておいて、動的に目的のBeanを取得したい場合は、beanに名前をつけておいて利用する側で@QualifierではなくListやMapで受け取る方法がある。  
 しかし本番実装Beanを一つだけDIコンテナから受け取る実装が本番側にある場合、テスト側でListやMapで受け取れたとしても本番側で「NoUniqueBeanDefinitionException」になってしまう。  
 複数のテスト実装を動的に切り替えるには工夫が必要。例えばテスト実装Beanがストラテジーとしてテスト実装Mapをコンストラクタで受け取っておき、featureトグルでストラテジーを切り替える方法がある。以下はその例。MyRepositoryのテスト実装を切り替えたい。  
 ```

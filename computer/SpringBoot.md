@@ -66,3 +66,19 @@ public class JdbcTemplateAutoConfiguration {
 (3)	JdbcOperationsの実装クラスDIコンテナにいなければBean定義が行われる。 これは、ユーザ定義のBean定義ファイルでJdbcTemplateのBean定義が行われている場合は、AutoConfigureによるBean定義が無効になることを意味している。
 (4)	NamedParameterJdbcOperationsの実装クラスDIコンテナにいなければBean定義が行われる。 これは、ユーザ定義のBean定義ファイルでNamedParameterJdbcTemplateのBean定義が行われている場合は、AutoConfigureによるBean定義が無効になることを意味している。
 ```
+
+### テスト時にBeanを上書きする  
+まずはテスト用実装クラスの@Profile("test")を付与する。  
+そしてJVMの起動引数に「-Dspring.profiles.active=test」をつけると本番実装とテスト実装の二つのBeanが有効になる。  
+このままではSpringがどっちをDIコンテナに登録すれば良いかわからず「NoUniqueBeanDefinitionException」が出る。  
+そのためテスト実装の方に@Primaryをつける。  
+これでOK。以下はコンポーネントスキャンで登録されるテスト実装の例。  
+```  
+@Repository  
+@Primary  
+@Profile("test")  
+public class MyRepositoryTestImple implements MyRepository {  
+〜  
+}  
+```  
+コンフィギュレーションクラスを使った場合でも同様にうまくいくと思われる。  

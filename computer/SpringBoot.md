@@ -1,5 +1,8 @@
 参考：https://qiita.com/kazuki43zoo/items/8645d9765edd11c6f1dd
 https://qiita.com/opengl-8080/items/05d9490d6f0544e2351a
+https://xn--fhqq99a3lb.jp/299
+https://qiita.com/syukai/items/0d4bf27f82fef9965cdd 
+https://qiita.com/gagagaga_dev/items/c16e5b6b3dff6df7e406
 
 # Spring Boot  
 Spring Bootは以下のライブラリで構成されるフレームワーク（明確に調べたわけではない）  
@@ -83,3 +86,5 @@ public class MyRepositoryTestImple implements MyRepository {
 ```  
 コンフィギュレーションクラスを使った場合でも同様にうまくいくと思われる。  
 JunitでテストするときはJVMの起動引数の代わりにテストクラスに@ActiveProfiles("test")をつけると楽。
+
+複数のBeanを登録しておいて、動的に目的のBeanを取得したい場合は、@Qualifierをつけておいて利用する側でListやMapで受け取る方法がある。  

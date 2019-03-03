@@ -82,3 +82,4 @@ public class MyRepositoryTestImple implements MyRepository {
 }  
 ```  
 コンフィギュレーションクラスを使った場合でも同様にうまくいくと思われる。  
+JunitでテストするときはJVMの起動引数の代わりにテストクラスに@ActiveProfiles("test")をつけると楽。

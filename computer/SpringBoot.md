@@ -87,4 +87,59 @@ public class MyRepositoryTestImple implements MyRepository {
 コンフィギュレーションクラスを使った場合でも同様にうまくいくと思われる。  
 JunitでテストするときはJVMの起動引数の代わりにテストクラスに@ActiveProfiles("test")をつけると楽。
 
-複数のBeanを登録しておいて、動的に目的のBeanを取得したい場合は、@Qualifierをつけておいて利用する側でListやMapで受け取る方法がある。  
+複数のテスト実装Beanを登録しておいて、動的に目的のBeanを取得したい場合は、@Qualifierをつけておいて利用する側でListやMapで受け取る方法がある。  
+しかし本番実装Beanを一つだけDIコンテナから受け取る実装が本番側にある場合、テスト側でListやMapで受け取れたとしても本番側で「NoUniqueBeanDefinitionException」になってしまう。  
+複数のテスト実装を動的に切り替えるには工夫が必要。例えばテスト実装Beanがストラテジーとしてテスト実装Mapをコンストラクタで受け取っておき、featureトグルでストラテジーを切り替える方法がある。以下はその例。MyRepositoryのテスト実装を切り替えたい。  
+```
+// コンフィギュレーションクラス
+@Configuration
+@Profile("acceptance_test")
+public class AcceptanceTestConfig {
+
+    @Bean
+    @Primary
+    public MyRepository myRepository() {
+        Map<String,MyRepository> rmap = new HashMap<>();
+        rmap.put("mymy", new MyImpl());
+        rmap.put("test", new TestImpl());
+        return new RepositoryForAcceptance(rmap);
+    }
+}
+
+// RepositoryForAcceptanceクラス　テストでDIされるクラス。
+public class RepositoryForAcceptance implements MyRepository {
+
+    private Map<String,MyRepository> rmap;
+    private String featureToggle;
+
+    public RepositoryForAcceptance(Map<String,MyRepository> rmap) {
+        this.rmap = rmap;
+    }
+
+    public void setFeatureToggle(String featureToggle) {
+        this.featureToggle = featureToggle;
+    }
+
+    @Override
+    public void done() {
+        this.rmap.get(this.featureToggle).done();
+    }
+}
+
+
+// テストクラス
+@SpringBootTest
+@ActiveProfiles("acceptance_test") // コンフィギュレーションクラスを有効化
+public class MyTest {
+
+    @Autowired
+    MyRepository myRepository; // DI
+
+    @Test
+    void test() {
+        RepositoryForAcceptance repositoryForAcceptance = (RepositoryForAcceptance) this.myRepository; // フィーチャートグルを設定するためダウンキャスト
+        repositoryForAcceptance.setFeatureToggle("mymy"); // フィーチャートグルで設定（切り替え）
+        repositoryForAcceptance.done(); // 目的の処理
+    }
+}
+```

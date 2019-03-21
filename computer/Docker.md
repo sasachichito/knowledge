@@ -47,3 +47,44 @@ Linuxは、認識しているNICをポートにすることでブリッジにす
 ## Docker swarm
 
 ![swarm](/picture/Docker4.png "swarm")
+
+
+# メモ
+```
+############### Dockerでjmeterを実行する ###############
+# Dockerfile
+FROM openjdk:8-jdk-alpine
+
+RUN mkdir /jmeter \
+    && cd /jmeter \
+    && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.1.1.tgz \
+    && tar --strip-components=1 -xvf apache-jmeter-5.1.1.tgz \
+    && rm apache-jmeter-5.1.1.tgz
+
+EXPOSE 1099
+
+CMD /jmeter/bin/jmeter-server -Jserver.rmi.ssl.disable=true
+
+# イメージ作成
+# Dockerファイルがあるディレクトリで以下を実行
+$ docker build -t myjmeter .
+
+# コンテナ起動
+$ docker run -d -p 1099:1099 myjmeter
+
+# jmxをコンテナ内にコピー
+# 予め作成しておいたjmxファイルをコピーする
+# Jmeterコンテナ→ホスト上のアプリにリクエストを投げるため
+# jmx作成時のリクエストの向き先ホスト名は「host.docker.internal」で指定している
+$ docker cp ~/MyTest.jmx 9c8efe4089b0:/tmp
+
+# Jmeter実行
+$ docker exec 9c8efe4089b0 /jmeter/bin/jmeter -n -t /tmp/MyTest.jmx -l log.jtl -e -o report
+
+# レポートを取得
+$ docker cp 9c8efe4089b0:/report .
+
+# レポートを閲覧
+$ cd report
+$ opne index.html
+```

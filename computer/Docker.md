@@ -88,3 +88,44 @@ $ docker cp 9c8efe4089b0:/report .
 $ cd report
 $ opne index.html
 ```
+```
+############### Dockerでjmeterをmaster-slave構成で実行する ###############
+# Dockerfile
+$ cat Dockerfile 
+FROM openjdk:8-jdk-alpine
+
+RUN mkdir /jmeter \
+    && cd /jmeter \
+    && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.1.1.tgz \
+    && tar --strip-components=1 -xvf apache-jmeter-5.1.1.tgz \
+    && rm apache-jmeter-5.1.1.tgz
+
+EXPOSE 1099
+
+CMD /jmeter/bin/jmeter-server
+$
+
+# イメージ作成
+$ docker build -t jmeter .
+
+# master起動
+$ docker run --name master -d -p 10990:1099 jmeter
+
+# slave起動
+$ docker run --name slave1 -d -p 10991:1099 jmeter
+$ docker run --name slave2 -d -p 10992:1099 jmeter
+$ docker run --name slave3 -d -p 10993:1099 jmeter
+$ docker run --name slave4 -d -p 10994:1099 jmeter
+$ docker run --name slave5 -d -p 10995:1099 jmeter
+
+# MyTest.jmxをmasterに配置
+$ docker cp ~/MyTest.jmx master:/tmp
+
+# jmeter実行
+$ docker exec master /jmeter/bin/jmeter \
+> -Jserver.rmi.ssl.disable=true \
+> -n -t /tmp/MyTest.jmx \
+> -l log_`date +%Y%m%d%H%M%S`.jtl \
+> -e -o report_`date +%Y%m%d%H%M%S` \
+> -R host.docker.internal:10991,host.docker.internal:10992,host.docker.internal:10993,host.docker.internal:10994,host.docker.internal:10995
+```

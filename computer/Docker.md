@@ -123,11 +123,11 @@ $ docker cp ~/MyTest.jmx master:/tmp
 
 # jmeter実行
 $ docker exec master /jmeter/bin/jmeter \
-> -Jserver.rmi.ssl.disable=true \
-> -n -t /tmp/MyTest.jmx \
-> -l log_`date +%Y%m%d%H%M%S`.jtl \
-> -e -o report_`date +%Y%m%d%H%M%S` \
-> -R host.docker.internal:10991,host.docker.internal:10992,host.docker.internal:10993,host.docker.internal:10994,host.docker.internal:10995
+-Jserver.rmi.ssl.disable=true \
+-n -t /tmp/MyTest.jmx \
+-l log_`date +%Y%m%d%H%M%S`.jtl \
+-e -o report_`date +%Y%m%d%H%M%S` \
+- R  host.docker.internal:10991,host.docker.internal:10992,host.docker.internal:10993,host.docker.internal:10994,host.docker.internal:10995
 ```
 ```
 ############### DockerHubにアップロード ###############

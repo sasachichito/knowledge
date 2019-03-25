@@ -135,3 +135,35 @@ $ docker login
 $ docker build -t sachito/jmeter .
 $ docker push sachito/jmeter:latest
 ```
+```
+############### jmeter-masterとslaveを分けてイメージ作成 ###############
+# master(jmxファイルをイメージ内に静的に持つ)
+$ cat Dockerfile 
+FROM openjdk:8-jdk-alpine
+
+RUN mkdir /jmeter \
+   && cd /jmeter \
+   && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.1.1.tgz \
+   && tar --strip-components=1 -xvf apache-jmeter-5.1.1.tgz \
+   && rm apache-jmeter-5.1.1.tgz
+
+COPY performance-test-scenario.jmx /tmp
+
+EXPOSE 1099
+
+CMD /jmeter/bin/jmeter-server -Jserver.rmi.ssl.disable=true
+
+# slave
+$ cat Dockerfile 
+FROM openjdk:8-jdk-alpine
+
+RUN mkdir /jmeter \
+    && cd /jmeter \
+    && wget https://archive.apache.org/dist/jmeter/binaries/apache-jmeter-5.1.1.tgz \
+    && tar --strip-components=1 -xvf apache-jmeter-5.1.1.tgz \
+    && rm apache-jmeter-5.1.1.tgz
+
+EXPOSE 1099
+
+CMD /jmeter/bin/jmeter-server -Jserver.rmi.ssl.disable=true
+```

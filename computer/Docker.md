@@ -129,3 +129,9 @@ $ docker exec master /jmeter/bin/jmeter \
 > -e -o report_`date +%Y%m%d%H%M%S` \
 > -R host.docker.internal:10991,host.docker.internal:10992,host.docker.internal:10993,host.docker.internal:10994,host.docker.internal:10995
 ```
+```
+############### DockerHubにアップロード ###############
+$ docker login
+$ docker build -t sachito/jmeter .
+$ docker push sachito/jmeter:latest
+```

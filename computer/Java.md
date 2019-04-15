@@ -193,11 +193,76 @@ http://backpaper0.github.io/2014/10/04/stream_collect.html
 # 非同期  
 ### CompletionStage  
 ステージという概念で処理の依存関係を表現できるインターフェース。  
-ステージとは何らかの処理を行う場所で完了の定義を持つ。  
-ステージは他のステージとの依存関係がある。  
+ステージとは何らかの処理を行う場所で、他のステージとの依存関係を持つ。  
 ステージが正常に完了もしくは例外で完了することが後方に依存するステージのトリガーとなる。  
-CompletionStageの利用者はステージそのもの（完了の定義）とステージ間の依存関係を定義する。  
+非同期の依存関係も定義できる。〜Asyncメソッドは別スレッドで非同期実行する。  
+CompletionStageの利用者はステージそのものとステージ間の依存関係を定義して利用する。  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/CompletionStage.html  
   
 ### Future  
 非同期処理の操作（キャンセルやタイムアウト設定）もしくは結果の操作（完了チェック、結果取得）ができるインターフェース。  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Future.html  
+  
+### CompletableFuture  
+CompletionStageとFutureを実装したクラス。  
+CompletionStageのインターフェースに加えて非同期処理の依存関係定義に便利なメソッドを追加している。（allOfなど）  
+Futureインターフェースを実装しているので結果の取得や操作も可能。  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture...-  
+  
+以下のようにステージが分岐する場合は依存関係定義において〜Asyncメソッドの使用の有無が大きな影響を与える。  
+```  
+              B---  
+              |  
+          A---C---  
+          |  
+main---------------------  
+```  
+上図のA,B,CはどれもCompletableFutureインスタンスである。Aの結果を使ってB,Cが処理を行う。  
+mainスレッドからCompletableFutureのstaticファクトリーメソッドでAを生成する。ファクトリーメソッド名にはAsyncとついているので、  
+この段階で別スレッドで非同期処理が始まる。  
+Cのステージ定義では  
+```  
+A.thenApply(Cの処理)  
+```  
+としている。そのためAのスレッドを利用してで実行される。  
+Bのステージ定義では  
+```  
+A.thenApplyAsync(Bの処理）  
+```  
+としている。そのため別スレッドで実行される。(上図の通りになる)  
+  
+もしBの定義で  
+```  
+A.thenApply(Bの処理)  
+```  
+としてしまうとAの処理で使ったスレッドをそのまま使うので    
+```  
+          A---C---B---  
+          |  
+main---------------------  
+```  
+となってBとCの処理が直列になる。(CとBの処理順については必ずしもこうなるわけではない。詳しくは後述している。)  
+  
+むしろ同じスレッドを使ってBとCを直列で実行したい場合は〜Asyncをつけてはいけない。  
+mainスレッドにて  
+```  
+CompletableFuture A = CompletableFuture.supplyAsync(Aの処理);  
+A.thenApply(Bの処理);  
+A.thenApply(Cの処理);  
+```  
+とするとAのスレッドを使ってBとCが直列で実行されるが、Aの後の処理順には注意しなければならない。  
+処理順はスタックアルゴリズムで決定される。定義された後続ステージがスタックに溜まっていく。  
+つまり仮にAの処理が別スレッド上で完了する前に、mainスレッド上でCのステージまで定義された場合の処理順は、  
+```  
+          A---C---B---  
+          |  
+main---------------------  
+```  
+となり、逆にAの処理が別スレッドで完了したときに、mainスレッドでBのステージまでしか定義されていなければ（もしくはBのステージすら定義されていなければ）  
+```  
+          A---B---C---  
+          |  
+main---------------------  
+```  
+となる。  
   

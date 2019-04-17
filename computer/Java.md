@@ -207,7 +207,7 @@ https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Future.html
 CompletionStageとFutureを実装したクラス。  
 CompletionStageのインターフェースに加えて非同期処理の依存関係定義に便利なメソッドを追加している。（allOfなど）  
 Futureインターフェースを実装しているので結果の取得や操作も可能。  
-https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/CompletableFuture.html#allOf-java.util.concurrent.CompletableFuture...-  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/CompletableFuture.html
   
 以下のようにステージが分岐する場合は依存関係定義において〜Asyncメソッドの使用の有無が大きな影響を与える。  
 ```  

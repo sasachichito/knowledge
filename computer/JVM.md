@@ -93,3 +93,37 @@ JVMが持つスレッドも、通常のプロセスとスレッドの関係に�
 スレッドは、  
 PC (プログラムカウンタ)を使ってプロセスのテキストセグメントにアクセスしてプログラムを実行する。  
 その際スレッド用に準備されたスタック領域とSP (スタックポインタ)を使う。  
+
+### Javaにおけるスレッド  
+参考：https://qiita.com/KeithYokoma/items/4e6e9bd4e44aab63424d  
+  
+Javaではスレッドとタスクという概念がある。  
+スレッドはあくまで物理レベルのスレッドであり、実行内容はタスクとして切り出している。  
+そのため「スレッドでタスクを実行する」という表現になる。  
+  
+**・Javaで「タスク」を表現する**  
+RunnableやCallableインターフェースで表現される。  
+【Runnable】https://docs.oracle.com/javase/jp/8/docs/api/java/lang/Runnable.html  
+【Callable】https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Callable.html  
+  
+これらは関数型インターフェースで、実装クラスのインスタンスが「タスク」となる。これらは別のスレッドで実行される前提で設計されている。  
+  
+**・Javaで「スレッド」を表現する**  
+Threadクラスで表現される。  
+https://docs.oracle.com/javase/jp/7/api/java/lang/Thread.html  
+  
+Threadクラスをnewすれば「スレッド」が作成される。  
+「タスク」を受け取って実行したり、Threadクラス自身がRunnableインターフェースを実装しているため「タスク」を実装して実行まですることもできる。  
+  
+### スレッドプール  
+Javaにおいては、あらかじめ「スレッド」を作成してプールしておく仕組み。  
+この段階で物理レベルでのスレッド（スタック領域,SP,PC）が作成されるためオーバーヘッドが小さくなる。  
+  
+スレッドプールとは「複数スレッドをプール・管理し、タスクを受け取ってスレッドで実行する」という表現になる。  
+  
+**・Javaでスレッドプールを表現する**  
+「タスク」を受け取るインターフェース：Executer  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Executor.html  
+Executerを非同期処理用に拡張したインターフェース：ExecutorService  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ExecutorService.html  
+  

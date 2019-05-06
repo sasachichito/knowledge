@@ -200,7 +200,7 @@ CompletionStageの利用者はステージそのものとステージ間の依�
 https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/CompletionStage.html  
   
 ### Future  
-非同期処理の操作（キャンセルやタイムアウト設定）もしくは結果の操作（完了チェック、結果取得）ができるインターフェース。  
+非同期処理の結果を表現し、それに対する操作（キャンセル、タイムアウト設定、完了チェック、結果取得）ができるインターフェース。  
 https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Future.html  
   
 ### CompletableFuture  

@@ -115,6 +115,14 @@ https://docs.oracle.com/javase/jp/7/api/java/lang/Thread.html
 Threadクラスをnewすれば「スレッド」が作成される。  
 「タスク」を受け取って実行したり、Threadクラス自身がRunnableインターフェースを実装しているため「タスク」を実装して実行まですることもできる。  
   
+**・Javaで「非同期処理の結果」を表現する**  
+Futureクラスで表現される。  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Future.html  
+  
+スレッドは別スレッドで開始されたタスクの完了を待たずに処理を続行し、任意のタイミングでタスクの結果を取得する。  
+これをソースコードで表現するためには、別スレッドのタスク開始と同時に未来の結果（つまりFuture）を受け取り、  
+任意の場所でFutureに対して操作（キャンセル、タイムアウト設定、完了チェック、結果取得）を行う。  
+  
 ### スレッドプール  
 Javaにおいては、あらかじめ「スレッド」を作成してプールしておく仕組み。  
 この段階で物理レベルでのスレッド（スタック領域,SP,PC）が作成されるためオーバーヘッドが小さくなる。  
@@ -122,8 +130,16 @@ Javaにおいては、あらかじめ「スレッド」を作成してプール�
 スレッドプールとは「複数スレッドをプール・管理し、タスクを受け取ってスレッドで実行する」という表現になる。  
   
 **・Javaでスレッドプールを表現する**  
-「タスク」を受け取るインターフェース：Executer  
+「タスク（Runnable）」を受け取るインターフェース：Executer  
 https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Executor.html  
-Executerを非同期処理用に拡張したインターフェース：ExecutorService  
+Executerを「非同期処理の結果（Future）」を扱えるように拡張したインターフェース：ExecutorService  
 https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ExecutorService.html  
+ExecutorServiceにいくつかのデフォルト実装を提供するabstractクラス：AbstractExecutorService  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/AbstractExecutorService.html  
+AbstractExecutorServiceを継承したクラス：ForkJoinPool  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ForkJoinPool.html  
+AbstractExecutorServiceを継承したクラス：ThreadPoolExecutor  
+https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html  
   
+・ForkJoinPoolとThreadPoolExecutorの違い  
+https://miyakawataku.hatenablog.com/entry/20171228/1514472588  

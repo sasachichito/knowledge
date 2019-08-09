@@ -112,3 +112,33 @@ JSONPはセキュリティ上の問題から非推奨であり、CORSが推奨�
 Origin以外のサーバーと通信する仕組み。  
 参考 https://qiita.com/tomoyukilabs/items/81698edd5812ff6acb34  
 https://qiita.com/masaoki/items/dea5843c9baf59bee2dc  
+
+## ECMAScript  
+JavaScriptの言語仕様。ESと略される。  
+多くのエディションがあり現時点でES2018が最新である。  
+全てのブラウザが常に最新ESに対応しているわけではないので、  
+トランスパイラで旧ESに変換することもある。  
+  
+ESとは別にCommonJSと呼ばれる言語仕様もある。  
+  
+### ES modules  
+ES2015で策定されたJavaScriptファイルから別のJavaScriptファイルを読み込む仕様。  
+参考 https://sbfl.net/blog/2017/07/26/es-modules-basics/  
+別のjsでexportした関数やクラスを、利用したいjsでimportできる。  
+```  
+export function hello() {  
+    console.log('hello!');  
+}  
+```  
+```  
+import { hello } from './module.js';  
+```  
+export defaultとすると、import側が「hello」という関数名を知らずに済む。  
+```  
+export default function() {  
+    console.log('hello!');  
+}  
+```  
+```  
+import hogehoge from './module.js';  
+```  

@@ -65,6 +65,12 @@ index.jsではContainerコンポーネントを操作する。
   
 これによりPresentationalコンポーネントでRedux依存がなくなる。  
   
+#### ・Redux Middleware  
+Reduxの機能を拡張する仕組み。  
+npmでミドルウェアパッケージをインストールし、  
+reduxが提供するapplyMiddleware関数の引数に指定して適用する。  
+applyMiddleware関数の結果はcreateStoreの第二引数に指定する。  
+  
 ### JSX  
 JavaScriptを拡張させた言語。  
 jsとHTMLを同時に扱える。  

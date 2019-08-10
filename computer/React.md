@@ -10,9 +10,60 @@ Reactでは仮想DOMを操作し、内部でDOMとの最小限の差分を自動
   
 ### Flux  
 クライアントサイドのアーキテクチャの一種。  
+データを一方通行にして簡易化する。  
   
 ### Redux  
-Fluxの実装。  
+Fluxの実装。reduxパッケージで提供されるjsライブラリ。  
+扱う概念  
+```  
+Action... イベントを表すオブジェクト  
+Reducer... Actionを受け取り内容に応じてStateを変更する関数  
+Store... reduxパッケージで提供されるオブジェクトで内部にReducerを一つ持つ  
+  
+データと処理の流れはAction→Store→Reducer→State→Subscriber  
+```  
+アプリケーションではActionをStoreに渡すだけで済み、State管理を隠蔽できる。  
+  
+ReactでReduxを利用する場合、  
+```
+1. イベント発生時にActionを生成してStoreのdispatchメソッドに渡すことでStateを更新  
+2. StoreからStateを取得して利用する  
+3. StoreのsubscribeメソッドでrenderApp(react-domのrender関数を実行するメソッド)を設定してState変更→描画を実現  
+```
+などが方法となる。  
+  
+Reactでもっと簡単にReduxを利用するためにreact-reduxパッケージが提供されている。  
+  
+#### ・react-redux  
+ReactとReduxを組み合わせるのを手助けするライブラリ。  
+本来ReactはViewのみを扱うためActionやStoreを意識すべきではなく、  
+```
+1. イベント発生時には対応する関数（イベントハンドラ）を呼ぶ  
+2. StateはPropsで渡される  
+3. State変更、再描画などのsubscribe処理は書かない  
+```
+とあるべき。  
+  
+react-reduxはこれを実現する。  
+react-reduxによりReactコンポーネントには必要なStateやイベントハンドラがPropsで渡されsubscribe処理は隠蔽される。  
+  
+扱う概念  
+```  
+Containerコンポーネント... ReactコンポーネントをラップしてStoreやActionをPropsとして渡す役割  
+Presentationalコンポーネント... Reduxに依存しない純粋なReactコンポーネント  
+```  
+  
+index.jsではContainerコンポーネントを操作する。  
+  
+コンテナコンポーネントは内部でconnectを使って、Presentationalコンポーネントをコネクトしてexport defaultする。  
+```  
+・mapStateToProps... 引数にStoreのStateを受け取り、必要な情報をオブジェクトで返す。  
+・mapDispatchToProps... 引数にStoreのdispatch関数を受け取り、それをラップした関数をオブジェクトで返す  
+・connect... 引数にmapStateToProps, mapDispatchToPropsを受け取り、ラッパー関数※を返す  
+※引数にコンポーネントを受け取りコネクトする（コネクトされたラッパーコンポーネントを返す）  
+```  
+  
+これによりPresentationalコンポーネントでRedux依存がなくなる。  
   
 ### JSX  
 JavaScriptを拡張させた言語。  
@@ -33,7 +84,7 @@ JSXからJavaScriptへ変換する。CLIやwebpackなどから利用。
 ・関数コンポーネント  
 ・クラスコンポーネント  
 ```  
-コンポーネントはプロパティと状態を持つ。  
+コンポーネントはプロパティと、(クラスコンポーネントの場合は)状態を持つ。  
 プロパティ(props)... 親コンポーネントから引き継ぐ読み取り専用プロパティ  
 状態(state)... コンポーネントの状態を保持する読み書き可能プロパティ  
   
@@ -89,7 +140,7 @@ package.jsonは以下になる。
   
 package.jsonをgit管理しておき、cloneして`npm install --production`とすると  
 開発用のパッケージはインストールされない。  
-
+  
 ## 同一生成元ポリシー  
 セキュリティ・プライバシーの観点から、Webページがその生成元となるOrigin以外のサーバーと通信できない仕組み。  
 ただしimgやjsはその範疇ではない。  
@@ -112,7 +163,7 @@ JSONPはセキュリティ上の問題から非推奨であり、CORSが推奨�
 Origin以外のサーバーと通信する仕組み。  
 参考 https://qiita.com/tomoyukilabs/items/81698edd5812ff6acb34  
 https://qiita.com/masaoki/items/dea5843c9baf59bee2dc  
-
+  
 ## ECMAScript  
 JavaScriptの言語仕様。ESと略される。  
 多くのエディションがあり現時点でES2018が最新である。  
@@ -142,3 +193,4 @@ export default function() {
 ```  
 import hogehoge from './module.js';  
 ```  
+  

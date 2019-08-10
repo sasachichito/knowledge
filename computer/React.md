@@ -25,11 +25,11 @@ Store... reduxパッケージで提供されるオブジェクトで内部にRed
 アプリケーションではActionをStoreに渡すだけで済み、State管理を隠蔽できる。  
   
 ReactでReduxを利用する場合、  
-```
+```  
 1. イベント発生時にActionを生成してStoreのdispatchメソッドに渡すことでStateを更新  
 2. StoreからStateを取得して利用する  
 3. StoreのsubscribeメソッドでrenderApp(react-domのrender関数を実行するメソッド)を設定してState変更→描画を実現  
-```
+```  
 などが方法となる。  
   
 Reactでもっと簡単にReduxを利用するためにreact-reduxパッケージが提供されている。  
@@ -37,11 +37,11 @@ Reactでもっと簡単にReduxを利用するためにreact-reduxパッケー�
 #### ・react-redux  
 ReactとReduxを組み合わせるのを手助けするライブラリ。  
 本来ReactはViewのみを扱うためActionやStoreを意識すべきではなく、  
-```
+```  
 1. イベント発生時には対応する関数（イベントハンドラ）を呼ぶ  
 2. StateはPropsで渡される  
 3. State変更、再描画などのsubscribe処理は書かない  
-```
+```  
 とあるべき。  
   
 react-reduxはこれを実現する。  
@@ -92,9 +92,17 @@ JSXからJavaScriptへ変換する。CLIやwebpackなどから利用。
 JSXでイベントの発生とイベントハンドラ(関数)を設定できる。  
 イベントハンドラ内のthisの参照を決定するbind処理がある。  
   
-### ルーター  
-URLとコンポーネントを紐づける。  
-   
+### ルーティング  
+URLとコンポーネントを紐づけることでSPAを実現する。  
+  
+ルーティングのライブラリ  
+・react-router  
+react-router-domパッケージで提供されるライブラリ  
+  
+・react-router-redux  
+react-routerをreduxに最適化したライブラリ。react-routerと一緒に利用する。  
+ルーティング情報をStoreのStateで管理できる。  
+  
 ## npm  
 ##### -gオプション  
 インストールの種類を決める（グローバルかローカル）  
@@ -193,4 +201,5 @@ export default function() {
 ```  
 import hogehoge from './module.js';  
 ```  
+  
   

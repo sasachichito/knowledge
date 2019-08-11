@@ -2,17 +2,17 @@
 JavaScriptライブラリ  
 コンポーネントと呼ばれる概念を用いる。  
   
-### Virtual DOM  
+## Virtual DOM  
 DOM(Document Object Model)はブラウザで用いられるXML文書のオブジェクトモデル。  
 ブラウザはレンダリングの中でDOMツリーを構築し描画している。  
 jsはDOMを操作するがパフォーマンスが悪いため、  
 Reactでは仮想DOMを操作し、内部でDOMとの最小限の差分を自動更新する仕組みを持つ。  
   
-### Flux  
+## Flux  
 クライアントサイドのアーキテクチャの一種。  
 データを一方通行にして簡易化する。  
   
-### Redux  
+## Redux  
 Fluxの実装。reduxパッケージで提供されるjsライブラリ。  
 扱う概念  
 ```  
@@ -34,7 +34,7 @@ ReactでReduxを利用する場合、
   
 Reactでもっと簡単にReduxを利用するためにreact-reduxパッケージが提供されている。  
   
-#### ・react-redux  
+### ・react-redux  
 ReactとReduxを組み合わせるのを手助けするライブラリ。  
 本来ReactはViewのみを扱うためActionやStoreを意識すべきではなく、  
 ```  
@@ -65,26 +65,30 @@ index.jsではContainerコンポーネントを操作する。
   
 これによりPresentationalコンポーネントでRedux依存がなくなる。  
   
-#### ・Redux Middleware  
+### ・Redux Middleware  
 Reduxの機能を拡張する仕組み。  
 npmでミドルウェアパッケージをインストールし、  
 reduxが提供するapplyMiddleware関数の引数に指定して適用する。  
 applyMiddleware関数の結果はcreateStoreの第二引数に指定する。  
   
-### JSX  
+### ・redux-thunkによる非同期処理  
+ReduxではAPIから何らかのレスポンスが返ってきたとき、これをアクションとして扱う作法がある。  
+そのためにredux-thunkというミドルウェアがある。  
+  
+## JSX  
 JavaScriptを拡張させた言語。  
 jsとHTMLを同時に扱える。  
   
-### Babel  
+## Babel  
 トランスパイラ(ソースコードからソースコードへ変換するツール)。  
 JSXからJavaScriptへ変換する。CLIやwebpackなどから利用。  
   
-### webpack  
+## webpack  
 モジュールバンドラー。  
 様々なソースファイルを束ねてブラウザで実行可能な静的なJavaScriptファイルを出力する。  
 束ねる際に処理を挟めるをLoaderという仕組みがあり、JSXからjsへの変換はこれで行なっている。(babel-loader)  
   
-### コンポーネント  
+## コンポーネント  
 コンポーネントは大きく2種類。  
 ```  
 ・関数コンポーネント  
@@ -94,23 +98,42 @@ JSXからJavaScriptへ変換する。CLIやwebpackなどから利用。
 プロパティ(props)... 親コンポーネントから引き継ぐ読み取り専用プロパティ  
 状態(state)... コンポーネントの状態を保持する読み書き可能プロパティ  
   
-### イベント  
+## イベント  
 JSXでイベントの発生とイベントハンドラ(関数)を設定できる。  
 イベントハンドラ内のthisの参照を決定するbind処理がある。  
   
-### ルーティング  
+## ルーティング  
 URLとコンポーネントを紐づけることでSPAを実現する。  
   
 ルーティングのライブラリ  
+```  
 ・react-router  
-react-router-domパッケージで提供されるライブラリ  
+react-router-domパッケージで提供されるライブラリ。  
+URL HashやHistory APIの実装を提供する。  
   
 ・react-router-redux  
 react-routerをreduxに最適化したライブラリ。react-routerと一緒に利用する。  
-ルーティング情報をStoreのStateで管理できる。  
+historyオブジェクトを強化し、その変更をルーティング情報をStoreのStateで管理できる。  
+```  
   
-## npm  
-##### -gオプション  
+ルーティングの実装パターン  
+```  
+・URL遷移なし  
+アプリで内部的にページ情報をStoreなどに保持し、ブラウザにURLを意識させない方法。  
+ブラウザの進む・戻るボタンが効かず、ブックマークも出来ず、リロードで状態も元に戻ってしまう。  
+  
+・URL Hash  
+Webページのアンカーリンクに用いられる方法をReactから利用する。  
+ブラウザは`#`を使った`http://foo/demo.html#item1`のようなURLを意識するため「URL遷移なし」のデメリットを補完できる。  
+  
+・History API  
+HTML5で追加された機能。ブラウザの履歴情報を操作できるAPI。  
+URLを意識するが、リロードでサーバーに当該URLでリクエストしてしまうため404が発生する可能性もある。  
+その場合、サーバー・クライアントサイドどちらかで工夫する必要がある。  
+```  
+  
+# npm  
+## -gオプション  
 インストールの種類を決める（グローバルかローカル）  
 参考 https://qiita.com/kijitoraneko/items/175ef29d45d155b3f405  
   
@@ -126,7 +149,7 @@ npmのインストール場所にパッケージをインストールする。
 パッケージが実行ファイル(js)を含んでいる場合、  
 それらのシンボリックリンクを`node_module/.bin`配下に配置する。  
   
-##### saveオプション  
+## saveオプション  
 依存関係の種類を決める（開発用か本番用）  
 参考 https://qiita.com/havveFn/items/c5beda8572aa8c1e6be6  
 https://qiita.com/heyheyww/items/092fcbc490a249a2d05c  
@@ -155,12 +178,12 @@ package.jsonは以下になる。
 package.jsonをgit管理しておき、cloneして`npm install --production`とすると  
 開発用のパッケージはインストールされない。  
   
-## 同一生成元ポリシー  
+# 同一生成元ポリシー  
 セキュリティ・プライバシーの観点から、Webページがその生成元となるOrigin以外のサーバーと通信できない仕組み。  
 ただしimgやjsはその範疇ではない。  
 Origin以外と通信するための仕組みとしてJSONPとCORSの2種類がある。  
   
-### JSONP  
+## JSONP  
 jsがOrigin以外から取得できることを利用した方法。  
 外部サーバーから取得したいデータ(X)をjsとして取得する。  
   
@@ -173,12 +196,12 @@ jsがOrigin以外から取得できることを利用した方法。
   
 JSONPはセキュリティ上の問題から非推奨であり、CORSが推奨されている。  
   
-### CORS  
+## CORS  
 Origin以外のサーバーと通信する仕組み。  
 参考 https://qiita.com/tomoyukilabs/items/81698edd5812ff6acb34  
 https://qiita.com/masaoki/items/dea5843c9baf59bee2dc  
   
-## ECMAScript  
+# ECMAScript  
 JavaScriptの言語仕様。ESと略される。  
 多くのエディションがあり現時点でES2018が最新である。  
 全てのブラウザが常に最新ESに対応しているわけではないので、  
@@ -186,7 +209,7 @@ JavaScriptの言語仕様。ESと略される。
   
 ESとは別にCommonJSと呼ばれる言語仕様もある。  
   
-### ES modules  
+## ES modules  
 ES2015で策定されたJavaScriptファイルから別のJavaScriptファイルを読み込む仕様。  
 参考 https://sbfl.net/blog/2017/07/26/es-modules-basics/  
 別のjsでexportした関数やクラスを、利用したいjsでimportできる。  

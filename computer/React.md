@@ -55,12 +55,12 @@ Presentationalコンポーネント... Reduxに依存しない純粋なReactコ�
   
 index.jsではContainerコンポーネントを操作する。  
   
-コンテナコンポーネントは内部でconnectを使って、Presentationalコンポーネントをコネクトしてexport defaultする。  
+Containerコンポーネントは内部でconnectを使って、PresentationalコンポーネントをReduxと紐づける。  
 ```  
 ・mapStateToProps... 引数にStoreのStateを受け取り、必要な情報をオブジェクトで返す。  
 ・mapDispatchToProps... 引数にStoreのdispatch関数を受け取り、それをラップした関数をオブジェクトで返す  
 ・connect... 引数にmapStateToProps, mapDispatchToPropsを受け取り、ラッパー関数※を返す  
-※引数にコンポーネントを受け取りコネクトする（コネクトされたラッパーコンポーネントを返す）  
+※引数にコンポーネントを受け取りコネクトされたラッパーコンポーネントを返す  
 ```  
   
 これによりPresentationalコンポーネントでRedux依存がなくなる。  
@@ -110,10 +110,12 @@ URLとコンポーネントを紐づけることでSPAを実現する。
 ・react-router  
 react-router-domパッケージで提供されるライブラリ。  
 URL HashやHistory APIの実装を提供する。  
+主に`〜Router`と`Link`コンポーネントが使われる。  
   
 ・react-router-redux  
 react-routerをreduxに最適化したライブラリ。react-routerと一緒に利用する。  
-historyオブジェクトを強化し、その変更をルーティング情報をStoreのStateで管理できる。  
+historyオブジェクトを強化しルーティング情報をStoreのStateで管理したり、アクション経由でルーティングするための  
+ルーティング用reducerとrouterMiddlewareを提供している。  
 ```  
   
 ルーティングの実装パターン  

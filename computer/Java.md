@@ -266,3 +266,76 @@ main---------------------
 ```  
 となる。  
   
+# Javaのロギング  
+## ロギングインターフェース  
+```  
+commons-logging  
+slf4j  
+...  
+```  
+アプリケーションから利用されるロギングインターフェース。  
+デファクトスタンダードはslf4j。  
+commons-loggingは早い段階でリリースされたが普及せず、現在は後述するロギングライブラリの立ち位置になる。  
+  
+## slf4j  
+概念としてネイティブバインダー、アダプター、ロギングライブラリ、ブリッジを扱う。  
+<img src="/picture/javalog1.png" width="500px">
+
+### ネイティブバインダー  
+```  
+slf4j-nop.jar（slf4j => /dev/null）  
+slf4j-simple.jar（slf4j => 標準エラー出力）  
+logback-classic.jar（slf4j => logback）  
+logback-core.jar（slf4j => logback）  
+```  
+ロギングインターフェースの実装で、実際にロギング処理を行う。  
+後述するアダプターのような委譲処理がないため高速でシンプル。  
+  
+### アダプター  
+```  
+slf4j-log4j12.jar（slf4j => log4j）  
+slf4j-jdk14.jar（slf4j => java.util.logging）  
+slf4j-jcl.jar（slf4j => commons-logging）  
+```  
+ロギングインターフェースの実装で、ロギングライブラリに処理を委譲する。  
+これによりインターフェースを満たしていないロギングライブラリをslf4jから利用できる。  
+新しいロギング実装が生まれれば、専用のアダプタを用意することでアプリを変更することなくjar追加で対応できる。  
+  
+### ロギングライブラリ  
+```  
+logback（log4jの後継）  
+log4j  
+java.util.logging  
+commons-logging  
+...  
+```  
+slf4jに依存しないロギング実装ライブラリ。  
+  
+### ブリッジ  
+```  
+jcl-over-slf4j.XXX.jar（commons-logging => slf4jに処理を移譲）  
+jul-to-slf4j.XXX.jar（java.util.logging => slf4jに処理を移譲）  
+log4j-over-slf4j.XXX.jar（log4j => slf4jに処理を移譲）  
+...  
+```  
+log4j, jcl等を使って既に実装されているログ出力処理を段階的にSLF4Jに移行するために使用するもの。  
+ブリッジはlog4j, jclと同名のクラスを提供して成りすますことで移行する。（元のクラスはクラスパスから除外する）  
+java.util.loggingは標準なのでクラスパスから外せないため別の仕組みを使っている。 
+<img src="/picture/javalog2.png" width="500px">
+  
+参考 : https://qiita.com/takuya-s/items/45176b2bfc9fe07a9ce7  
+https://qiita.com/NagaokaKenichi/items/9febd2e559331152fcf8  
+https://www.nextdoorwith.info/wp/se/slf4j/  
+https://www.bunkei-programmer.net/entry/2012/10/20/java%E3%81%AE%E3%83%AD%E3%82%AC%E3%83%BC%E3%81%8C%E5%A4%9A%E3%81%99%E3%81%8E%E3%81%A6%E8%A8%B3%E3%81%8C%E8%A7%A3%E3%82%89%E3%81%AA%E3%81%84%E3%81%AE%E3%81%A7%E6%95%B4%E7%90%86%E3%81%97%E3%81%A6  
+  
+## その他のログに関する知識  
+syslog...ログ出力を専門とするデーモンプロセスの総称。  
+ローカルやリモートの別プロセスから利用され、ログの集約を可能にする。  
+複数プロセスから利用できるようにファシリティという概念でデーモンをサブシステムに分割している。  
+実装としてsyslogd, rsyslog, syslog-ngがある。  
+  
+fluentd... ログ収集を専門とするデーモンプロセス。  
+ファイル、syslog、DB、アプリ等からログを受け取り、ファイル、syslog、DB、アプリ等に出力する。  
+入出力の種類・形式毎にプラグインがあり、fluentdの実態はプラグインのHubになっている。  
+syslogとの違いはその柔軟性にある。  
+https://knowledge.sakura.ad.jp/1336/  

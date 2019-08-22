@@ -181,3 +181,9 @@ execute(ForkJoinTask), invoke(ForkJoinTask), submit(ForkJoinTask)等でタスク
 共通プールや他の独自プールとは隔離されたプールで、独自の設定でタスクを処理できる。  
   
 ForkJoinTaskのjoin()は結果が取得されるまで待機する。（Featureを実装している）  
+  
+**Asyncモード**
+```
+各スレッドがタスクをキュー(FIFO)で管理するモード。デフォルトはスタック(LIFO)。
+分割統治法（タスク内で新たにタスクをfork();join()）の必要がなければキューの方が都合が良い場合が多い。
+```

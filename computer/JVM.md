@@ -140,11 +140,11 @@ AbstractExecutorServiceを継承したクラス：ForkJoinPool [Javadoc](https:/
 AbstractExecutorServiceを継承したクラス：ThreadPoolExecutor [Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html)    
   
 
-## スレッドプール  
+# スレッドプール  
 ExecutorService（＝スレッドプール）の実装は（現時点で）ThreadPoolExecutorとForkJoinPoolの二つ。  
 [ForkJoinPoolとThreadPoolExecutorの違い](https://miyakawataku.hatenablog.com/entry/20171228/1514472588)  
   
-### スレッドプールのアルゴリズム  
+## スレッドプールのアルゴリズム  
 CachedThread : 必要に応じて新規スレッドを作成するが利用可能な場合には以前に構築されたスレッドを再利用する。（ThreadPoolExecutorで採用）  
   
 FixedThread : 指定された固定数のスレッドを再利用する。（ThreadPoolExecutorで採用）  
@@ -160,11 +160,11 @@ WorkStealing : CPUのコア数の最大値または指定された並列数を�
  ExecutorService e3 = Executors.newWorkStealingPool(3);  
 ```  
   
-### ThreadPoolExecutor  
+## ThreadPoolExecutor  
 プールされた複数のスレッドの1つを使用して送信された各タスクを実行するExecutorService。  
 アルゴリズムはCachedThreadまたはFixedThread。  
   
-### ForkJoinPool  
+## ForkJoinPool  
 ForkJoinTaskを実行するためのExecutorService。  
 物理的なスレッドを管理している。アルゴリズムはWorkStealing。  
   
@@ -173,6 +173,7 @@ ForkJoinTaskを実行するためのExecutorService。
 フォークスレッド（別スレッド）で実行されるタスクを表現するモデル。  
 ForkJoinPoolで実行される。  
 ```
+  
 ForkJoinTaskのfork()やinvoke()で実行した場合、ForkJoinPoolが静的に保持するcommonPool（共通プール）と呼ばれるプールで非同期実行される。  
 共通プールの並列度(デフォルトはコア数-1),スレッドファクトリ,エクセプションハンドラの設定はシステムプロパティから行う。  
   
@@ -187,3 +188,5 @@ ForkJoinTaskのjoin()は結果が取得されるまで待機する。（Feature�
 各スレッドがタスクをキュー(FIFO)で管理するモード。デフォルトはスタック(LIFO)。
 分割統治法（タスク内で新たにタスクをfork();join()）の必要がなければキューの方が都合が良い場合が多い。
 ```
+
+java.util.stream.Streamのパラレルストリームでは、内部でForkJoinPool(commonPool)が利用されている。

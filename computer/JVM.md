@@ -123,23 +123,61 @@ https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Future.html
 これをソースコードで表現するためには、別スレッドのタスク開始と同時に未来の結果（つまりFuture）を受け取り、  
 任意の場所でFutureに対して操作（キャンセル、タイムアウト設定、完了チェック、結果取得）を行う。  
   
-### スレッドプール  
+**・Javaで「スレッドプール」を表現する**  
 Javaにおいては、あらかじめ「スレッド」を作成してプールしておく仕組み。  
 この段階で物理レベルでのスレッド（スタック領域,SP,PC）が作成されるためオーバーヘッドが小さくなる。  
   
 スレッドプールとは「複数スレッドをプール・管理し、タスクを受け取ってスレッドで実行する」という表現になる。  
+    
+「タスク（Runnable）」を受け取るインターフェース：Executer [Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Executor.html)  
   
-**・Javaでスレッドプールを表現する**  
-「タスク（Runnable）」を受け取るインターフェース：Executer  
-https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/Executor.html  
-Executerを「非同期処理の結果（Future）」を扱えるように拡張したインターフェース：ExecutorService  
-https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ExecutorService.html  
-ExecutorServiceにいくつかのデフォルト実装を提供するabstractクラス：AbstractExecutorService  
-https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/AbstractExecutorService.html  
-AbstractExecutorServiceを継承したクラス：ForkJoinPool  
-https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ForkJoinPool.html  
-AbstractExecutorServiceを継承したクラス：ThreadPoolExecutor  
-https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html  
+Executerを「非同期処理の結果（Future）」を扱えるように拡張したインターフェース：ExecutorService [Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ExecutorService.html)  
+  
+ExecutorServiceにいくつかのデフォルト実装を提供するabstractクラス：AbstractExecutorService [Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/AbstractExecutorService.html)  
+  
+AbstractExecutorServiceを継承したクラス：ForkJoinPool [Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ForkJoinPool.html)  
+  
+AbstractExecutorServiceを継承したクラス：ThreadPoolExecutor [Javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/util/concurrent/ThreadPoolExecutor.html)    
   
 ・ForkJoinPoolとThreadPoolExecutorの違い  
 https://miyakawataku.hatenablog.com/entry/20171228/1514472588  
+
+## スレッドプール  
+ExecutorService（＝スレッドプール）の実装は（現時点で）ThreadPoolExecutorとForkJoinPoolの二つ。  
+  
+### スレッドプールのアルゴリズム  
+CachedThread : 必要に応じて新規スレッドを作成するが利用可能な場合には以前に構築されたスレッドを再利用する。（ThreadPoolExecutorで採用）  
+  
+FixedThread : 指定された固定数のスレッドを再利用する。（ThreadPoolExecutorで採用）  
+  
+WorkStealing : CPUのコア数の最大値または指定された並列数を保つスレッドプール。各スレッドにタスクのキューが割り当てられ、キューに空きが出来ると他のスレッドからタスクを横取り(Work Stealing)して処理する（ForkJoinPoolで採用）  
+  
+```  
+ // ThreadPoolExecutor  
+ ExecutorService e1 = Executors.newFixedThreadPool(3);  
+ // ThreadPoolExecutor  
+ ExecutorService e2 = Executors.newCachedThreadPool();  
+ // ForkJoinPool  
+ ExecutorService e3 = Executors.newWorkStealingPool(3);  
+```  
+  
+### ThreadPoolExecutor  
+プールされた複数のスレッドの1つを使用して送信された各タスクを実行するExecutorService。  
+アルゴリズムはCachedThreadまたはFixedThread。  
+  
+### ForkJoinPool  
+ForkJoinTaskを実行するためのExecutorService。  
+物理的なスレッドを管理している。アルゴリズムはWorkStealing。  
+  
+#### ForkJoinTask  
+フォークスレッド（別スレッド）で実行されるタスクを表現するモデル。  
+ForkJoinPoolで実行される。  
+  
+ForkJoinTaskのfork()やinvoke()で実行した場合、ForkJoinPoolが静的に保持するcommonPool（共通プール）と呼ばれるプールで非同期実行される。  
+共通プールの並列度(デフォルトはコア数-1),スレッドファクトリ,エクセプションハンドラの設定はシステムプロパティから行う。  
+  
+対して明示的に設定・取得したForkJoinPoolのインスタンス（独自プール）に対して、  
+execute(ForkJoinTask), invoke(ForkJoinTask), submit(ForkJoinTask)等でタスクを送信する場合、  
+共通プールや他の独自プールとは隔離されたプールで、独自の設定でタスクを処理できる。  
+  
+ForkJoinTaskのjoin()は結果が取得されるまで待機する。（Featureを実装している）  

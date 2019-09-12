@@ -339,3 +339,28 @@ fluentd... ログ収集を専門とするデーモンプロセス。
 入出力の種類・形式毎にプラグインがあり、fluentdの実態はプラグインのHubになっている。  
 syslogとの違いはその柔軟性にある。  
 https://knowledge.sakura.ad.jp/1336/  
+
+# ファイル操作  
+### java.io  
+[javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/io/package-summary.html)  
+ファイルシステムにアクセスするために提供されたパッケージ。  
+コピーやシンボリックリンクなどに対応できずエラーの詳細を知ることもできないなど問題が多く改善が求められた。  
+  
+参考 : https://qiita.com/liguofeng29/items/e08dc21b16c0057f601e  
+  
+主な概念  
+・byte stream... 処理単位 1バイトのストリーム  
+InputStream | OutputStream  
+・char stream... 処理単位 2バイトのストリーム  
+Reader | Writer  
+・Buffer... 指定のバッファサイズだけ一括でストリームから読み(書き)込むことでデータソースへのアクセス回数を減らす仕組み  
+BufferedInputStream | BufferedOutputStream | BufferedReader | BufferedWriter  
+  
+### java.nio  
+[javadoc](https://docs.oracle.com/javase/jp/8/docs/api/java/nio/package-summary.html)  
+java1.4で導入されたパッケージ。java.ioの強化版。  
+java7でさらに強化されたjava.nioをnio.2と呼ぶ。  
+  
+主な概念  
+Channel... データソースとバッファを繋げるパイプ  
+Buffer... チャネルとアプリを繋げるパイプ  

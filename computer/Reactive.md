@@ -28,6 +28,7 @@ DBアクセスライブラリのアダプタ実装もある。
 # 同期(Sync)と非同期(Async)  
 参考 : https://qiita.com/kencharos/items/2ad090e7a6b7e9664f04  
 https://moz.hatenablog.jp/entry/2018/04/10/175643  
+https://yuk1tyd.hatenablog.com/entry/2018/03/10/145159  
   
 同期(Sync) : タスクの完了を待つこと。  
 非同期(Async) : タスクの完了を待たないこと。  

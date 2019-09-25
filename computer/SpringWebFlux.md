@@ -14,8 +14,7 @@ DBやリモートサービス接続を非同期ノンブロッキングに行う
 大前提として、ブロッキングIO＋マルチスレッドよりも  
 ノンブロッキングIO＋シングルスレッドの方が効率が良い。  
   
-Reactive Programmingは後者の実装をわかりやすく書くことが目的であり、  
-Spring WebFluxはそのフレームワークである。  
+Spring WebFluxは後者のフレームワークである。  
   
 Spring WebFluxを採用した場合、  
 `クライアント↔︎HTTP↔︎OS↔︎WEBコンテナ(Servlet3.1)↔︎Spring WebFlux↔︎アプリ↔︎外部API`  

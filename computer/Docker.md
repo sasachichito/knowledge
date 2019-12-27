@@ -1,3 +1,6 @@
+参考:  
+[dockerコマンドチートシート](https://qiita.com/voluntas/items/68c1fd04dd3d507d4083)  
+[-itオプションについて](https://teratail.com/questions/19477)
 ## Dockerイメージとコンテナ
 
 ### AUFS(AnotherUnionFileSystem)... 

@@ -3,8 +3,9 @@ Webブラウザの自動操作ライブラリ。
 
 # WebDriver
 Googleが開発したSeleniumの中核技術。  
-WebDriverのインターフェースはW3Cによって標準化される予定。  
-そうなるとSelenium側ではなく各ブラウザベンダが実装の提供に責務を持つ。  
+WebDriverのインターフェース(仕様)はW3Cによって標準化される予定。  
+従ってその実装はSeleniumプロジェクトではなく各ブラウザベンダの責務となっていく。  
+![selenium](/picture/Selenium.png "selenium")
 
 # Appium
 WebDriverの実装の一種で、iOS,Android,Win等のドライバへのアダプタ(デザインパターン)である。  

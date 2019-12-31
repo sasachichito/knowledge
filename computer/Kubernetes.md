@@ -1,5 +1,20 @@
 メモ
 ```
+ローカル環境にk8s構築するには2つの選択肢がある。
+### Docker For Desktop
+GUIから操作して構築
+### Minikube
+・minikube取得
+minikube-installer.exeでインストール
+https://github.com/kubernetes/minikube/releases/latest
+・Hyper-Vでminikube構築
+https://minikube.sigs.k8s.io/docs/reference/drivers/hyperv/
+管理者権限でPowerShell起動：Start-Process powershell.exe -Verb runas
+minikube start --vm-driver=hyperv --memory='1024mb'
+デフォルトのメモリ2000mbだと空き不足で構築失敗したため明示的に指定。
+Hyper-Vマネージャー上から見ると結局2000mbで構築されているよう。
+```
+```
 ・ユーザー
 k8sを操作するアカウントはUserAccountとServiceAccountの2種類がある。
 UserAccountはk8sが管理するものではない。ServiceAccountはk8sが管理している。

@@ -3,6 +3,7 @@
 ローカル環境にk8s構築するには2つの選択肢がある。
 ### Docker For Desktop
 GUIから操作して構築
+ダッシュボード表示：https://github.com/kubernetes/dashboard
 ### Minikube
 ・minikube取得
 minikube-installer.exeでインストール

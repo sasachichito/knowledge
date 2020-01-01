@@ -1,4 +1,7 @@
-メモ
+<img src="/picture/k8s.png" width="1000px">  
+
+メモ  
+
 ```
 ローカル環境にk8s構築するには2つの選択肢がある。
 ### Docker For Desktop

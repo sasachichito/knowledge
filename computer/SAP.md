@@ -1,10 +1,10 @@
-# SAP  
-### SAP社が提供する大企業向けERPパッケージのバージョン遍歴  
+# SAP社が提供するERPパッケージ
+### 大企業向けERPパッケージのバージョン遍歴  
 RF→R/2→R/3→ECC→SoH→S/4 HANA  
   
 ECCのサポートが2025年に終了。  
   
-### SAP社が提供する大企業向けERPパッケージ  
+### 中小企業向けERPパッケージ  
 SAP Business One(B1)... ECCから機能を削ったを提供。  
 SAP Business ByDesign... SaaSとして提供。  
   

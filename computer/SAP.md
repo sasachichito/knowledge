@@ -189,9 +189,9 @@ SAPの標準機能(実態はABAPプログラム)のAPIとして動作する。
 ### GUI  
 SAP GUIとSAP間のプロトコルを外部プログラムで実装する方式。  
   
-## ABAP DDIC  
+## ABAPディクショナリ（データディクショナリ/ディクショナリ/DDIC）  
 [参考](https://help.sap.com/saphelp_tm92/helpdata/en/cf/21ea0b446011d189700000e8322d00/frameset.htm)  
-DDICはdata dictionaryの略。ABAP Dictionaryとも表記される。  
+ABAPディクショナリ、データディクショナリ、ディクショナリ、DDICは同義。DDICはdata dictionaryの略。  
 大きく3種類の機能を持つ。  
 ・データベースの管理  
 ・型の管理  

@@ -258,3 +258,46 @@ IDoc
 この種類の例外を送出するメソッドやモジュールはIFで明示的に宣言する必要はない。  
 呼び出し元でキャッチ・処理しない場合上位の呼び出し元に自動で転送される。  
 ※最上位の呼び出し元まで転送された結果キャッチ・処理されなければランタイムエラーとなる。  
+
+# Windows＆DockerでSAP NetWeaver AS ABAP 7.52 SP04のDeveloper Editionを構築する  
+  
+### SAP社の人が提供しているDockerfileを用意  
+```  
+$ git clone https://github.com/nzamani/sap-nw-abap-trial-docker.git  
+$ cd sap-nw-abap-trial-docker/  
+$ mkdir sapdownloads  
+```  
+  
+### Developer Editionのファイルを取得して配置する  
+① https://developers.sap.com/trials-downloads.html からSAP ABAP AS Part1～11をダウンロードする。  
+② .rarをsapdownloadsに展開  
+  
+### NW ABAP 7.52コンテナ作成  
+```  
+# イメージ作成  
+$ docker build -t nwabap:7.52 .  
+  
+# コンテナ作成＆Bash起動  
+$ docker run -p 8000:8000 -p 44300:44300 -p 3300:3300 -p 3200:3200 -h vhcalnplci --name nwabap752 -it nwabap:7.52 /bin/bash  
+  
+# NW ABAP 7.52インストール  
+root@nwabap:/# /usr/sbin/uuidd  
+root@nwabap:/# ./install.exp  
+root@nwabap:/# exit  
+```  
+  
+### NW ABAP 7.52起動  
+```  
+$ docker start -i nwabap752  
+root@nwabap:/# /usr/sbin/uuidd  
+root@nwabap:/# su npladm  
+root@nwabap:/# startsap ALL  
+```  
+  
+### NW ABAP 7.52停止  
+```  
+root@nwabap:/# su npladm  
+root@nwabap:/# stopsap ALL  
+root@nwabap:/# exit  
+root@nwabap:/# exit  
+```  

@@ -271,33 +271,53 @@ $ mkdir sapdownloads
 ### Developer Editionのファイルを取得して配置する  
 ① https://developers.sap.com/trials-downloads.html からSAP ABAP AS Part1～11をダウンロードする。  
 ② .rarをsapdownloadsに展開  
+※rar圧縮のため、どれか一つ(Part1等)を解凍すれば他のrarファイルも自動で解凍・結合される  
   
 ### NW ABAP 7.52コンテナ作成  
 ```  
 # イメージ作成  
 $ docker build -t nwabap:7.52 .  
-  
+
+※次のような権限系のエラーが出た場合
+Sending build context to Docker daemon  14.83GB
+Error response from daemon: Error processing tar file(exit status 1): write /sapdownloads/server/TAR/x86_64/sapmnt.tgz-aa: read-only file system
+以下のように権限を付与する（Git Bashではchmodが動作しないため以下のコマンドをPower Shellから実行する）
+icacls 'C:\Users\Path\To\sap-nw-abap-trial-docker\sapdownloads\*' /grant Everyone:F
+
+※Docker Hostのディスク容量が足りない場合(build中のCOPYタスクで15GBは消費する)
+①Dockerfileの以下の記述をコメントアウト
+COPY install.exp /tmp/sapdownloads/
+COPY sapdownloads /tmp/sapdownloads/
+WORKDIR /tmp/sapdownloads
+RUN chmod +x install.sh install.exp
+```
+
+```
 # コンテナ作成＆Bash起動  
-$ docker run -p 8000:8000 -p 44300:44300 -p 3300:3300 -p 3200:3200 -h vhcalnplci --name nwabap752 -it nwabap:7.52 /bin/bash  
-  
+$ docker run -p 8000:8000 -p 44300:44300 -p 3300:3300 -p 3200:3200 -h vhcalnplci --name nwabap752 -it nwabap:7.52  
+
+※ディスク容量対策でDockerfileにコメントアウトを入れた場合は以下
+docker run --mount type=bind,src=/Path/To/sap-nw-abap-trial-docker/sapdownloads,dst=/tmp/sapdownloads -p 8000:8000 -p 44300:44300 -p 3300:3300 -p 3200:3200 -h vhcalnplci --name nwabap752 -it nwabap:7.52
+```
+
+```
 # NW ABAP 7.52インストール  
-root@nwabap:/# /usr/sbin/uuidd  
-root@nwabap:/# ./install.exp  
-root@nwabap:/# exit  
+vhcalnplci:/# /usr/sbin/uuidd
+vhcalnplci:/# /tmp/sapdownloads/install.sh
+vhcalnplci:/# exit  
 ```  
   
 ### NW ABAP 7.52起動  
 ```  
 $ docker start -i nwabap752  
-root@nwabap:/# /usr/sbin/uuidd  
-root@nwabap:/# su npladm  
-root@nwabap:/# startsap ALL  
+vhcalnplci:/# /usr/sbin/uuidd  
+vhcalnplci:/# su npladm  
+vhcalnplci:/# startsap ALL  
 ```  
   
 ### NW ABAP 7.52停止  
 ```  
-root@nwabap:/# su npladm  
-root@nwabap:/# stopsap ALL  
-root@nwabap:/# exit  
-root@nwabap:/# exit  
+vhcalnplci:/# su npladm  
+vhcalnplci:/# stopsap ALL  
+vhcalnplci:/# exit  
 ```  

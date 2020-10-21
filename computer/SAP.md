@@ -327,17 +327,21 @@ The option vm.max_map_count was added to the configuration file
 sysctl: setting key "vm.max_map_count": Read-only file system
 Error: Could not reload sysctl configuration
 
-Dockerホストの設定値を変更する必要がある模様: 参考: http://gogs.nicuessa.com:880/mirror-ideas/sap-nw-abap-trial-docker/src/master/README.md
-Linux:
+Docker EngineのホストLinuxの設定値を変更する必要がある模様: 
+参考1: https://blogs.sap.com/2018/05/30/installing-sap-nw-abap-into-docker/
+参考2: https://docs.docker.com/docker-for-mac/release-notes/
+Docker For Macでは、Mac > VMware > Linux > Docker Engine > Containerの構成となっている。この構成のLinuxにログインして設定値を変更する。
+nc -U ~/Library/Containers/com.docker.docker/Data/debug-shell.sock
 sysctl -w vm.max_map_count=1000000
 
-macOS wit Docker for Mac (FYI see also here):
-screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty
-sysctl -w vm.max_map_count=1000000
+※※※ 次のようなエラーが出た場合
+Caught ESAPinstException in module call: 
+Validator of step '|offlineadjustment_dialogs|ind|ind|ind|ind|0|0|offlineadjustment_os_users|ind|ind|ind|ind|osUsers|0|NW_GetUserParameter|ind|ind|ind|ind|getUserParameter|0|NW_GetUserParameterUnix|ind|ind|ind|ind|users_unix|0|askSidAdm' reported an error:
+Start SAPinst in interactive mode to solve this problem.
 
-Windows and macOS with Docker Toolbox
-docker-machine ssh
-sudo sysctl -w vm.max_map_count=1000000
+OSユーザーのパスワードのルールを満たしていない模様
+参考: https://answers.sap.com/questions/91430/sap-netweaver-as-abap-750-developer-edition---modl.html
+Password should follow rules: at least seven chars, big letter, small letter, digits, no special chars.
 ```  
   
 ### NW ABAP 7.52起動  

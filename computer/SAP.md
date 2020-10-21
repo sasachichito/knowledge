@@ -321,6 +321,23 @@ vhcalnplci:/# exit
 ※※※ zypperのエラー対策でDockerfileにコメントアウトを入れた場合は先に以下を実行
 vhcalnplci:/# zypper --non-interactive install --replacefiles which hostname expect net-tools iputils wget vim iproute2 unrar less tar gzip uuidd tcsh libaio
 vhcalnplci:/# mkdir /run/uuidd && chown uuidd /var/run/uuidd && /usr/sbin/uuidd
+
+※※※ 次のようなエラーが出た場合
+The option vm.max_map_count was added to the configuration file
+sysctl: setting key "vm.max_map_count": Read-only file system
+Error: Could not reload sysctl configuration
+
+Dockerホストの設定値を変更する必要がある模様: 参考: http://gogs.nicuessa.com:880/mirror-ideas/sap-nw-abap-trial-docker/src/master/README.md
+Linux:
+sysctl -w vm.max_map_count=1000000
+
+macOS wit Docker for Mac (FYI see also here):
+screen ~/Library/Containers/com.docker.docker/Data/vms/0/tty
+sysctl -w vm.max_map_count=1000000
+
+Windows and macOS with Docker Toolbox
+docker-machine ssh
+sudo sysctl -w vm.max_map_count=1000000
 ```  
   
 ### NW ABAP 7.52起動  

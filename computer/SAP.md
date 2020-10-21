@@ -278,29 +278,37 @@ $ mkdir sapdownloads
 # イメージ作成  
 $ docker build -t nwabap:7.52 .  
 
-※次のような権限系のエラーが出た場合
+※※※ 1 次のような権限系のエラーが出た場合
 Sending build context to Docker daemon  14.83GB
 Error response from daemon: Error processing tar file(exit status 1): write /sapdownloads/server/TAR/x86_64/sapmnt.tgz-aa: read-only file system
 
 以下のように権限を付与する（Git Bashではchmodが動作しないため以下のコマンドをPower Shellから実行する）
 icacls 'C:\Users\Path\To\sap-nw-abap-trial-docker\sapdownloads\*' /grant Everyone:F
 
-※Docker Hostのディスク容量が足りない場合(build中のCOPYタスクで15GBは消費する)
-1. Dockerfileの以下の記述をコメントアウト
+※※※ 2 Docker Hostのディスク容量が足りない場合(build中のCOPYタスクで15GBは消費する)
+2.1. Dockerfileの以下の記述をコメントアウト
 COPY install.exp /tmp/sapdownloads/
 COPY sapdownloads /tmp/sapdownloads/
 WORKDIR /tmp/sapdownloads
 RUN chmod +x install.sh install.exp
 
-2. Dockerfileのあるディレクトリに.dockerignoreファイルを作成し、以下を記述(dockerデーモンに送信するコンテキストファイルのうち除外するものを記載)
+2.2. Dockerfileのあるディレクトリに.dockerignoreファイルを作成し、以下を記述(dockerデーモンに送信するコンテキストファイルのうち除外するものを記載)
 sapdownloads
+
+※※※ 3 次のようなzypperのエラーが出た場合
+Retrieving repository 'Non-OSS Repository' metadata [.Repository 'Non-OSS Repository' is invalid.
+[repo-non-oss|http://download.opensuse.org/distribution/leap/15.2/repo/non-oss/] Valid metadata not found at specified URL
+
+Dockerfileの以下の記述をコメントアウト
+RUN zypper --non-interactive install --replacefiles which hostname expect net-tools iputils wget vim iproute2 unrar less tar gzip uuidd tcsh libaio
+RUN mkdir /run/uuidd && chown uuidd /var/run/uuidd && /usr/sbin/uuidd
 ```
 
 ```
 # コンテナ作成＆Bash起動  
 $ docker run -p 8000:8000 -p 44300:44300 -p 3300:3300 -p 3200:3200 -h vhcalnplci --name nwabap752 -it nwabap:7.52  
 
-※ディスク容量対策でDockerfileにコメントアウトを入れた場合は以下
+※※※ ディスク容量対策でDockerfileにコメントアウトを入れた場合は以下
 docker run --mount type=bind,src=/Path/To/sap-nw-abap-trial-docker/sapdownloads,dst=/tmp/sapdownloads -p 8000:8000 -p 44300:44300 -p 3300:3300 -p 3200:3200 -h vhcalnplci --name nwabap752 -it nwabap:7.52
 ```
 
@@ -309,6 +317,10 @@ docker run --mount type=bind,src=/Path/To/sap-nw-abap-trial-docker/sapdownloads,
 vhcalnplci:/# /usr/sbin/uuidd
 vhcalnplci:/# /tmp/sapdownloads/install.sh
 vhcalnplci:/# exit  
+
+※※※ zypperのエラー対策でDockerfileにコメントアウトを入れた場合は先に以下を実行
+vhcalnplci:/# zypper --non-interactive install --replacefiles which hostname expect net-tools iputils wget vim iproute2 unrar less tar gzip uuidd tcsh libaio
+vhcalnplci:/# mkdir /run/uuidd && chown uuidd /var/run/uuidd && /usr/sbin/uuidd
 ```  
   
 ### NW ABAP 7.52起動  

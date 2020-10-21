@@ -281,15 +281,19 @@ $ docker build -t nwabap:7.52 .
 ※次のような権限系のエラーが出た場合
 Sending build context to Docker daemon  14.83GB
 Error response from daemon: Error processing tar file(exit status 1): write /sapdownloads/server/TAR/x86_64/sapmnt.tgz-aa: read-only file system
+
 以下のように権限を付与する（Git Bashではchmodが動作しないため以下のコマンドをPower Shellから実行する）
 icacls 'C:\Users\Path\To\sap-nw-abap-trial-docker\sapdownloads\*' /grant Everyone:F
 
 ※Docker Hostのディスク容量が足りない場合(build中のCOPYタスクで15GBは消費する)
-①Dockerfileの以下の記述をコメントアウト
+1. Dockerfileの以下の記述をコメントアウト
 COPY install.exp /tmp/sapdownloads/
 COPY sapdownloads /tmp/sapdownloads/
 WORKDIR /tmp/sapdownloads
 RUN chmod +x install.sh install.exp
+
+2. Dockerfileのあるディレクトリに.dockerignoreファイルを作成し、以下を記述(dockerデーモンに送信するコンテキストファイルのうち除外するものを記載)
+sapdownloads
 ```
 
 ```

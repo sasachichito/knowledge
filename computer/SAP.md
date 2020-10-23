@@ -358,3 +358,6 @@ vhcalnplci:/# su npladm
 vhcalnplci:/# stopsap ALL  
 vhcalnplci:/# exit  
 ```  
+
+### SAP GUIからログオン
+https://blogs.sap.com/2019/10/01/as-abap-7.52-sp04-developer-edition-concise-installation-guide/

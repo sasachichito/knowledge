@@ -1,4 +1,16 @@
 ```
+@startuml
+Bob -> Alice : hello
+@enduml
+```
+
+```
+@startuml
+ボブ -> アリス : ハロー
+@enduml
+```
+
+```
 import java.util.HashMap;
 import java.util.Map;
 

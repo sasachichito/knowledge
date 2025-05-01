@@ -1,0 +1,26 @@
+@startuml
+skinparam backgroundcolor AntiqueWhite
+hide <<A>> stereotype
+
+<style>
+  classDiagram {
+    .A {
+      FontColor red
+    }
+  }
+
+</style>
+package pacX {
+  class A <<A>> {
+    myString mydata
+    aaa()
+  }
+  B : bbb
+}
+C : ccc
+note top : mynote
+
+A -> B : a2b
+B <|- C : b2c
+
+@enduml

@@ -5,10 +5,30 @@ hide class circle
 
 package "スクリプト" {
   class "PlantUMLスクリプト" as PlnatUMLスクリプト
+  class "startuml〜enduml" as startumlからenduml
   class "1行" as スクリプト1行
 }
 
 package "スクリプト処理系" {
+  class "BlockUml\n(startumlからendumlまでの1ブロック)" as BlockUml
+  class "rawSource" as rawSource
+  class "data" as data
+  class "StringLocated" as StringLocated
+
+  package tim {
+    class "TimLoader" as TimLoader
+    class "TContext" as TContext {
+      resultList
+      executeLines()
+    }
+    class "FunctionSet" as FunctionSet
+    class "TFunction" as TFunction
+    class "SimpleReturnFunction" as SimpleReturnFunction
+    class "IsDark" as IsDark
+  }
+}
+
+package "ダイアグラム処理系" {
   class "BlocLines" as BlocLines
   class "Command" as Command
   class "Step" as Step
@@ -75,8 +95,32 @@ package "描画処理系" {
   }
 }
 
-PlnatUMLスクリプト - "*" スクリプト1行
-BlocLines -- "*" スクリプト1行
+PlnatUMLスクリプト -- "*" startumlからenduml
+startumlからenduml -- "*" スクリプト1行
+
+rawSource -- "1" startumlからenduml
+rawSource -- "*" StringLocated
+
+StringLocated -- "1" スクリプト1行
+
+BlockUml -- "関数適用前\n1" rawSource : 持つ >
+BlockUml -- "関数適用後\n1" data : 持つ >
+BlockUml -- TimLoader : 使う >
+BlockUml -- Diagram : 生成する >
+BlockUml -- PSystemFactory : 使う >
+
+TimLoader -- TContext : 持つ >
+TimLoader -- "処理結果" data : 生成する >
+
+TContext -- FunctionSet : 持つ >
+
+FunctionSet -- "*" TFunction : 持つ >
+
+SimpleReturnFunction ..|> TFunction
+
+IsDark --|> SimpleReturnFunction
+
+BlocLines -- "*" StringLocated
 
 Step -- "1" Command
 Step -- "コマンドの対象\n1" BlocLines
@@ -88,7 +132,7 @@ ClassDiagramFactory --|> PSystemCommandFactory
 PSystemCommandFactory --|> PSystemAbstractFactory
 PSystemAbstractFactory ..|> PSystemFactory
 
-Command -- スクリプト1行 : 処理対象かチェック >
+Command -- StringLocated : 処理対象かチェック >
 Command -- "1" ParserPass
 Command -- Diagram : 設定する >
 

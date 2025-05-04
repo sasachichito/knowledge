@@ -10,59 +10,100 @@ package "スクリプト" {
 }
 
 package "スクリプト処理系" {
-  class "BlockUml\n(startumlからendumlまでの1ブロック)" as BlockUml
-  class "rawSource" as rawSource
-  class "data" as data
-  class "StringLocated" as StringLocated
+  package 基本 {
+    class "BlockUml\n(startumlからendumlまでの1ブロック)" as BlockUml
+    class "rawSource" as rawSource
+    class "StringLocated" as StringLocated
+    class "data" as data
+    class "StringLocated\n(前処理後の1行)" as 前処理後の1行
+  }
 
   package tim {
-    class "TimLoader" as TimLoader
-    class "TContext" as TContext {
+    class "TimLoader\n(スクリプト前処理)" as TimLoader
+    class "TContext\n(前処理全体管理)" as TContext {
       resultList
-      executeLines()
     }
-    class "FunctionSet" as FunctionSet
-    class "TFunction" as TFunction
-    class "SimpleReturnFunction" as SimpleReturnFunction
-    class "IsDark" as IsDark
+
+    package "コードイテレータ系" {
+      class "CodeIterator\n(一行をpeek)" as CodeIterator
+      class "AbstractCodeIterator\n(デコレータパターンで1行に対して\n複数イテレータのpeek()を適用)" as AbstractCodeIterator
+      class "CodeIteratorIf\n(ifブロック内の実行する行だけpeek)" as CodeIteratorIf
+      class "CodeIteratorReturnFunction" as CodeIteratorReturnFunction
+    }
+
+    package "関数系" {
+      class "FunctionSet\n(関数を管理)" as FunctionSet
+      class "TFunction" as TFunction
+      class "SimpleReturnFunction" as SimpleReturnFunction
+      class "IsDark" as IsDark
+      class "TFunctionImple" as TFunctionImple
+      class "TValue" as TValue {
+        int intValue
+        String stringValue
+        JsonValue jsonValue
+        String 文字列表現()
+      }
+    }
+    class "Trie\n(トライ木（接頭辞木）。\n文字列を効率的に検索するために\n接頭辞の共通部分を共有して保存する)" as Trie
+
+    package "メモリ系" {
+      class "TMemory" as TMemory
+      class "ExecutionContexts\n(構文解析用)" as ExecutionContexts 
+      class "ExecutionContextIf\n(IF文の実行ブロック判定用に\n一時的な情報を持つ)" as ExecutionContextIf
+      class "ExecutionContextWhile" as ExecutionContextWhile
+      class "ExecutionContextForeach" as ExecutionContextForeach
+      class "TMemoryGlobal\n(変数を管理)" as TMemoryGlobal
+      class "globalValiables\n(変数定義)" as globalValiables
+    }
+
+    package Eater系 {
+      class "Eater\n(一行を解析する)" as Eater
+      class "EaterIf\n(ifやelseを判定)" as EaterIf
+      class "EaterAffectation" as EaterAffectation
+      class "EaterFunctionCall" as EaterFunctionCall
+      class "EaterDeclareReturnFunction" as EaterDeclareReturnFunction
+    }
   }
 }
 
 package "ダイアグラム処理系" {
-  class "BlocLines" as BlocLines
-  class "Command" as Command
-  class "Step" as Step
-  class "PSystemFactory" as PSystemFactory
-  class "PSystemAbstractFactory" as PSystemAbstractFactory
-  class "PSystemCommandFactory" as PSystemCommandFactory
-  class "ClassDiagramFactory" as ClassDiagramFactory
-
-  class "Diagram" as Diagram
-  class "AbstractPSystem" as AbstractPSystem
-  class "TitledDiagram" as TitledDiagram
-  class "UmlDiagram" as UmlDiagram
-  class "CucaDiagaram" as CucaDiagaram
-  class "AbstractEntityDiagram" as AbstractEntityDiagram
-  class "AbstractClassOrObjectDiagram" as AbstractClassOrObjectDiagram
-  class "ClassDiagram" as ClassDiagram
-
-  class "<<区分>>\nParserPass\n（実行フェーズ）" as ParserPass {
-    ONE
-    TWO
-    THREE
+  package ファクトリー系 {
+    package ステップ {
+      class "BlocLines\n(コマンドの処理対象となる1〜数行)" as BlocLines
+      class "Command" as Command
+      class "Step\n(実行単位)" as Step
+    }
+    class "PSystemFactory" as PSystemFactory
+    class "PSystemAbstractFactory" as PSystemAbstractFactory
+    class "PSystemCommandFactory" as PSystemCommandFactory
+    class "ClassDiagramFactory" as ClassDiagramFactory
+    class "<<区分>>\nParserPass\n（実行フェーズ）" as ParserPass {
+      ONE
+      TWO
+      THREE
+    }
   }
-  class "Plasma \n(QuarkのCRUD管理)" as Plasma
-  class "Quark \n(任意のデータのラッパー)" as Quark
-  class "Entity \n(図中の各オブジェクトを表現)" as Entity
-  class "Bodier \n(オブジェクトの内容)" as Bodier
-  class "Link \n(オブジェクト間の関係性)" as Link {
-    LinkArg
+  package ダイアグラム系 {
+    class "Diagram" as Diagram
+    class "AbstractPSystem" as AbstractPSystem
+    class "TitledDiagram" as TitledDiagram
+    class "UmlDiagram" as UmlDiagram
+    class "CucaDiagaram" as CucaDiagaram
+    class "AbstractEntityDiagram" as AbstractEntityDiagram
+    class "AbstractClassOrObjectDiagram" as AbstractClassOrObjectDiagram
+    class "ClassDiagram" as ClassDiagram
+    class "Plasma \n(QuarkのCRUD管理)" as Plasma
+    class "Quark \n(任意のデータのラッパー)" as Quark
+    class "Entity \n(図中の各オブジェクトを表現)" as Entity
+    class "Bodier \n(オブジェクトの内容)" as Bodier
+    class "Link \n(オブジェクト間の関係性)" as Link {
+      LinkArg
+    }
   }
 }
 
 package Graphviz処理系 {
   class "DotStringFactory" as DotStringFactory
-  class "DotString" as DotString
   class "DotData" as DotData
   class "Bibliotekon" as Bibliotekon
   class "Cluster" as Cluster
@@ -70,8 +111,11 @@ package Graphviz処理系 {
   class "SvekNode" as SvekNode
   class "SvekEdge" as SvekEdge
   class "IEntityImage" as IEntityImage
-  class "dot.exe \n(レイアウトの算出に利用)" as dot_exe
-  class "SVGテキスト \n(レイアウト情報)" as SVGテキスト
+  package dot系 {
+    class "DotString" as DotString
+    class "dot.exe \n(レイアウトの算出に利用)" as dot_exe
+    class "SVGテキスト \n(レイアウト情報)" as SVGテキスト
+  }
 }
 
 package "描画処理系" {
@@ -86,7 +130,7 @@ package "描画処理系" {
   class "UShape \n(Graphics2Dにおける\nShape型に相当)" as UShape
   class "UDriver" as UDriver
   class "UParam" as UParam
-  class "Uchage \n(Graphics2Dにおける\nsetFontやsetColorに相当)" as Uchage
+  class "UChage \n(Graphics2Dにおける\nsetFontやsetColorに相当)" as Uchage
   class "画像ファイル" as 画像ファイル
 
   package "Java標準ライブラリ" {
@@ -103,24 +147,64 @@ rawSource -- "*" StringLocated
 
 StringLocated -- "1" スクリプト1行
 
-BlockUml -- "関数適用前\n1" rawSource : 持つ >
-BlockUml -- "関数適用後\n1" data : 持つ >
+BlockUml -- "処理前\n1" rawSource : 持つ >
+BlockUml -- "前処理後\n1" data : 持つ >
 BlockUml -- TimLoader : 使う >
-BlockUml -- Diagram : 生成する >
-BlockUml -- PSystemFactory : 使う >
+BlockUml -- PSystemFactory : でダイアグラムを生成する >
 
-TimLoader -- TContext : 持つ >
+data -- "*" 前処理後の1行
+
+TimLoader -- TContext : 使う >
 TimLoader -- "処理結果" data : 生成する >
+TimLoader -- TMemory : 持つ >
 
 TContext -- FunctionSet : 持つ >
+TContext -- Eater : で1行処理 >
+TContext -- CodeIterator : で1行peek >
 
-FunctionSet -- "*" TFunction : 持つ >
+CodeIterator -- Eater : 使う >
 
-SimpleReturnFunction ..|> TFunction
+AbstractCodeIterator .u.|> CodeIterator
 
-IsDark --|> SimpleReturnFunction
+CodeIteratorIf .u.|> AbstractCodeIterator
+CodeIteratorIf -- EaterIf : 使う >
 
-BlocLines -- "*" StringLocated
+CodeIteratorReturnFunction .u.|> AbstractCodeIterator
+
+FunctionSet -- "*" TFunction : 持つ/生成する/実行する >
+FunctionSet -- "関数名保存/検索用" Trie : 持つ >
+
+TFunction -- "処理結果\n1" TValue
+
+SimpleReturnFunction .u.|> TFunction
+
+IsDark -u-|> SimpleReturnFunction
+
+TFunctionImple .u.|> TFunction
+
+ExecutionContexts .u.|> TMemory
+ExecutionContexts -- ExecutionContextIf : 持つ >
+ExecutionContexts -- ExecutionContextWhile : 持つ >
+ExecutionContexts -- ExecutionContextForeach : 持つ >
+
+TMemoryGlobal -u-|> ExecutionContexts
+TMemoryGlobal -- globalValiables : 持つ >
+TMemoryGlobal -- "変数名保存/検索用" Trie : 持つ >
+
+EaterIf -u-|> Eater
+EaterIf -- ExecutionContextIf : 使う >
+
+EaterDeclareReturnFunction -u-|> Eater
+EaterDeclareReturnFunction -- TFunctionImple : 生成する >
+EaterDeclareReturnFunction -- FunctionSet : 関数登録 >
+
+EaterAffectation -u-|> Eater
+EaterAffectation -- TMemoryGlobal : 変数登録 >
+
+EaterFunctionCall -u-|> Eater
+EaterFunctionCall -- FunctionSet : 関数呼び出し >
+
+BlocLines -- "*" 前処理後の1行
 
 Step -- "1" Command
 Step -- "コマンドの対象\n1" BlocLines
@@ -128,26 +212,26 @@ Step -- "コマンドの対象\n1" BlocLines
 PSystemFactory -- "*" Command : 持つ >
 PSystemFactory -- Diagram : 空で生成する >
 
-ClassDiagramFactory --|> PSystemCommandFactory
-PSystemCommandFactory --|> PSystemAbstractFactory
-PSystemAbstractFactory ..|> PSystemFactory
+ClassDiagramFactory -u-|> PSystemCommandFactory
+PSystemCommandFactory -u-|> PSystemAbstractFactory
+PSystemAbstractFactory .u.|> PSystemFactory
 
-Command -- StringLocated : 処理対象かチェック >
-Command -- "1" ParserPass
+Command -- 前処理後の1行 : 処理対象かチェック >
+Command -- "自分が実行されるフェーズ\n1" ParserPass
 Command -- Diagram : 設定する >
 
-Diagram -- "必要フェーズ数\n1..*" ParserPass
+Diagram -- "必要な処理フェーズ数\n1..*" ParserPass
 Diagram -- "namespace\n1" Plasma : 持つ >
 Diagram -- "*" Link : 持つ >
 Diagram -- Step : 実行する >
 
-ClassDiagram --|> AbstractClassOrObjectDiagram
-AbstractClassOrObjectDiagram --|> AbstractEntityDiagram
-AbstractEntityDiagram --|> CucaDiagaram
-CucaDiagaram --|> UmlDiagram
-UmlDiagram --|> TitledDiagram
-TitledDiagram --|> AbstractPSystem
-AbstractPSystem ..|> Diagram
+ClassDiagram -u-|> AbstractClassOrObjectDiagram
+AbstractClassOrObjectDiagram -u-|> AbstractEntityDiagram
+AbstractEntityDiagram -u-|> CucaDiagaram
+CucaDiagaram -u-|> UmlDiagram
+UmlDiagram -u-|> TitledDiagram
+TitledDiagram -u-|> AbstractPSystem
+AbstractPSystem .u.|> Diagram
 
 Plasma -- "*" Quark : 持つ >
 Quark -- "*" Entity : 持つ >
@@ -175,13 +259,13 @@ Bibliotekon -- "*" SvekEdge : 持つ >
 
 SvekNode -- IEntityImage : 持つ >
 SvekNode -- SVGテキスト : 位置情報を取得する >
-SvekNode ..|> UDrawable
+SvekNode .u.|> UDrawable
 
 SvekEdge -- SVGテキスト : 位置情報を取得する >
-SvekEdge ..|> UDrawable
+SvekEdge .u.|> UDrawable
 
 Cluster -- SVGテキスト : 位置情報を取得する >
-Cluster ..|> UDrawable
+Cluster .u.|> UDrawable
 
 dot_exe -- "Input\n1" DotString
 dot_exe -- "Output\n1" SVGテキスト
@@ -202,7 +286,7 @@ Graphics2D -- BufferedImage : 書き込む >
 
 BufferedImage -- "1" 画像ファイル : 生成する >
 
-SvekResult --|> AbstractTextBlock
-AbstractTextBlock --|> TextBlock
-TextBlock ..|> UDrawable
+SvekResult -u-|> AbstractTextBlock
+AbstractTextBlock -u-|> TextBlock
+TextBlock .u.|> UDrawable
 @enduml

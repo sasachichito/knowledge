@@ -34,6 +34,7 @@ package "スクリプト処理系" {
     package "関数系" {
       class "FunctionSet\n(関数を管理)" as FunctionSet
       class "TFunction" as TFunction
+      class "body\n(関数の中身にあたるスクリプト)" as body
       class "SimpleReturnFunction" as SimpleReturnFunction
       class "IsDark" as IsDark
       class "TFunctionImple" as TFunctionImple
@@ -53,6 +54,7 @@ package "スクリプト処理系" {
       class "ExecutionContextWhile" as ExecutionContextWhile
       class "ExecutionContextForeach" as ExecutionContextForeach
       class "TMemoryGlobal\n(変数を管理)" as TMemoryGlobal
+      class "TMemoryLocal\n(変数を管理。TFunctionImplの実行時、\nつまりTFunctionImplがTContextを使って\n自身のbodyを前処理するときに、\nTContextが使うのは\nGlobalではなくこちら)" as TMemoryLocal
       class "globalValiables\n(変数定義)" as globalValiables
     }
 
@@ -149,18 +151,19 @@ StringLocated -- "1" スクリプト1行
 
 BlockUml -- "処理前\n1" rawSource : 持つ >
 BlockUml -- "前処理後\n1" data : 持つ >
-BlockUml -- TimLoader : 使う >
+BlockUml -- TimLoader : でrawSourceを前処理する >
 BlockUml -- PSystemFactory : でダイアグラムを生成する >
 
 data -- "*" 前処理後の1行
 
-TimLoader -- TContext : 使う >
+TimLoader -- TContext : でrawSourceを前処理する >
 TimLoader -- "処理結果" data : 生成する >
-TimLoader -- TMemory : 持つ >
+' TimLoader -- TMemory : 持つ >
 
 TContext -- FunctionSet : 持つ >
 TContext -- Eater : で1行処理 >
 TContext -- CodeIterator : で1行peek >
+TContext -- TMemory : 使う >
 
 CodeIterator -- Eater : 使う >
 
@@ -175,12 +178,15 @@ FunctionSet -- "*" TFunction : 持つ/生成する/実行する >
 FunctionSet -- "関数名保存/検索用" Trie : 持つ >
 
 TFunction -- "処理結果\n1" TValue
+TFunction -- "引数\n*" TValue
 
 SimpleReturnFunction .u.|> TFunction
 
 IsDark -u-|> SimpleReturnFunction
 
 TFunctionImple .u.|> TFunction
+TFunctionImple -- body : 持つ >
+TFunctionImple -- TContext : でbodyを前処理する >
 
 ExecutionContexts .u.|> TMemory
 ExecutionContexts -- ExecutionContextIf : 持つ >
@@ -190,6 +196,8 @@ ExecutionContexts -- ExecutionContextForeach : 持つ >
 TMemoryGlobal -u-|> ExecutionContexts
 TMemoryGlobal -- globalValiables : 持つ >
 TMemoryGlobal -- "変数名保存/検索用" Trie : 持つ >
+
+TMemoryLocal -u-|> ExecutionContexts
 
 EaterIf -u-|> Eater
 EaterIf -- ExecutionContextIf : 使う >

@@ -7,39 +7,42 @@ Run -> Run : manageFileInternal
 Run -> ": SourceFileReaderAbstract" : getGeneratedImages
 ": SourceFileReaderAbstract" -> ": BlockUml" : getDiagram
 ": BlockUml" -> ": PSystemBuilder" : createPSystem
+
 group loop ( factories ) [ createSystem isOK ]
-  ": PSystemBuilder" -> ": PSystemCommandFactory" : createSystem
-  note over ": PSystemCommandFactory"
+  ": PSystemBuilder" -> ": PSystemFactory" : createSystem
+  note over ": PSystemFactory"
     e.g. ClassDiagramFactory
   end note
-  ": PSystemCommandFactory" -> ": UmlSource" : iterator2
+  ": PSystemFactory" -> ": UmlSource" : iterator2
   return it : IteratorCounter2
 
-  ": PSystemCommandFactory" -> ": PSystemCommandFactory" : createEmptyDiagram
-  ": PSystemCommandFactory" -> ": AbstractPSystem" : new
+  ": PSystemFactory" -> ": PSystemFactory" #FFBBBB : createEmptyDiagram
+  ": PSystemFactory" -> ": AbstractPSystem" : new
   note over ": AbstractPSystem"
     e.g. ClassDiagram
   end note
   return AbstractPSystem
   return sys : AbstractPSystem
-  ": PSystemCommandFactory" -> ": PSystemCommandFactory" : executeFewLines(sys, ..., it , ...)
-  ": PSystemCommandFactory" -> ": PSystemCommandFactory" : getCandidate(it)
-  ": PSystemCommandFactory" -> ": PSystemCommandFactory" : initCommandsList
-  return
-  return step : Step
-  
-  ": PSystemCommandFactory" -> ": AbstractPSystem" : executeCommand(step.command, step.blocLines, ...)
-  ": AbstractPSystem" -> ": ProtectedCommand" : execute
-  ": ProtectedCommand" -> ": SingleLineCommand2" : execute
-  
-  ": SingleLineCommand2" -> ": CommandCreateClass" : executeArg(Diagram, ...)
-  ": CommandCreateClass" -> ": CommandCreateClass" : executeArg(ClassDiagram, ...) 
-  return CommandExecutionResult
-  return CommandExecutionResult
-  ": SingleLineCommand2" -> ": CommandLinkClass" : executeArg(Diagram, ...)
-  ": CommandLinkClass" -> ": CommandLinkClass" : executeArg(AbstractClassOrObjectDiagram, ...)
-  return CommandExecutionResult
-  return CommandExecutionResult
-  
+
+  group loop [ it.hasNext() ]
+    ": PSystemFactory" -> ": PSystemFactory" #FFBBBB : executeFewLines(sys, ..., it , ...) 
+    ": PSystemFactory" -> ": PSystemFactory" #DarkSalmon : getCandidate(it)
+    ": PSystemFactory" -> ": PSystemFactory" #005500 : initCommandsList
+    return
+    return step : Step
+    
+    ": PSystemFactory" -> ": AbstractPSystem" : executeCommand(step.command, step.blocLines, ...)
+    ": AbstractPSystem" -> ": ProtectedCommand" : execute
+    ": ProtectedCommand" -> ": SingleLineCommand2" : execute
+    
+    ": SingleLineCommand2" -> ": CommandCreateClass" : executeArg(Diagram, ...)
+    ": CommandCreateClass" -> ": CommandCreateClass" : executeArg(ClassDiagram, ...) 
+    return CommandExecutionResult
+    return CommandExecutionResult
+    ": SingleLineCommand2" -> ": CommandLinkClass" : executeArg(Diagram, ...)
+    ": CommandLinkClass" -> ": CommandLinkClass" : executeArg(AbstractClassOrObjectDiagram, ...)
+    return CommandExecutionResult
+    return CommandExecutionResult
+  end  
 end
 @enduml

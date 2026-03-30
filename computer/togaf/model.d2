@@ -1,0 +1,89 @@
+vars: {
+  d2-config: {
+    layout-engine: elk
+  }
+}
+
+direction: down
+
+# ═══════════════════════════════════════════════════
+# クラス定義
+# ═══════════════════════════════════════════════════
+クラス定義: {
+  grid-rows: 2
+  grid-columns: 4
+
+  ADMフェーズ: {
+    shape: class
+    名称: string
+    目的: string
+    input: "List<string>"
+    output: "List<Map<オペレーション, string>>"
+  }
+
+  Deliverable: {
+    shape: class
+    名称: string
+    目的: string
+    コンテンツ: "List<string>"
+  }
+
+  オペレーション: {
+    shape: class
+    label: "«enum» オペレーション"
+    ドラフト作成
+    更新
+    承認
+    最終化
+    署名済み
+    該当する場合のみ
+  }
+
+  メタモデルエンティティ: {
+    shape: class
+    名前: string
+    説明: string
+    アーキテクチャドメイン: string
+  }
+
+  ビルディングブロック: {
+    shape: class
+    名称: string
+    対象メタモデル要素: string
+    格納先デリバラブル: "List<string>"
+  }
+
+  アーティファクト: {
+    shape: class
+    名称: string
+    対象ビルディングブロック: "List<string>"
+    格納先コンテンツ: "List<string>"
+  }
+
+  ADMステップ: {
+    shape: class
+    ADMフェーズ: string
+    順番: int
+    タイトル: string
+    内容: string
+    入力コンテンツ: "List<Map<String,String>>"
+    作成コンテンツ: "List<Map<String, Map<オペレーション,String>>>"
+    含まれるアーティファクト: "List<string>"
+    含まれるBB（のメタモデルエンティティ）: "List<string>"
+  }
+}
+
+# ═══════════════════════════════════════════════════
+# インスタンス (トップレベルノードで見切れ防止)
+# ═══════════════════════════════════════════════════
+...@instances/adm_phases.d2
+...@instances/deliverables.d2
+...@instances/bb_artifacts.d2
+...@instances/adm_steps.d2
+
+クラス定義 -> ADMフェーズ一覧: { style.opacity: 0 }
+ADMフェーズ一覧 -> Deliverable一覧: { style.opacity: 0 }
+Deliverable一覧 -> メタモデルエンティティ一覧: { style.opacity: 0 }
+メタモデルエンティティ一覧 -> ビルディングブロック一覧: { style.opacity: 0 }
+ビルディングブロック一覧 -> アーティファクト一覧: { style.opacity: 0 }
+アーティファクト一覧 -> ADMステップ一覧: { style.opacity: 0 }

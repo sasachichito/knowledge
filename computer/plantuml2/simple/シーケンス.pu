@@ -1,0 +1,169 @@
+@startuml
+' 参加者の定義
+actor User as User
+'net.sourceforge.plantuml.Run
+participant Run as Run
+participant Xxx as Xxx
+' net.sourceforge.plantuml.PSystemBuilder
+participant ": PSystemBuilder" as PSystemBuilder
+' net.sourceforge.plantuml.command.PSystemCommandFactory
+participant ": PSystemCommandFactory, \nPSystemAbstractFactory, PSystemFactory" as PSystemFactory 
+' net.sourceforge.plantuml.AbstractPSystem, net.sourceforge.plantuml.core.Diagram
+participant ": AbstractPSystem, Diagram" as AbstractPSystem
+' net.sourceforge.plantuml.command.Command'
+participant ": Command" as Command
+
+' 参加者への注釈
+note over PSystemFactory
+  サブタイプの例：
+  ClassDiagramFactory
+end note
+/ note over AbstractPSystem
+  サブタイプの例：
+  ClassDiagram
+end note
+/ note over Command
+  サブタイプの例：
+  CommandCreateClass, 
+  CommandLinkClass
+end note
+
+' シーケンス開始
+' net.sourceforge.plantuml.Run#main(String[])
+User -> Run : main 
+activate Run
+Run -> Xxx : xxx
+activate Xxx
+' net.sourceforge.plantuml.PSystemBuilder#createPSystem(List,List,Previous,PreprocessingArtifact)
+Xxx -> PSystemBuilder : createPSystem
+activate PSystemBuilder
+
+loop PSystemFactoryのリスト
+  note over PSystemBuilder
+    [ループの説明]
+    既定のPSystemFactoryの
+    リストを順に試す
+  end note
+
+  ' ' net.sourceforge.plantuml.command.PSystemCommandFactory#createSystem(UmlSource,Previous,PreprocessingArtifact)
+  PSystemBuilder -> PSystemFactory : createSystem 
+  activate PSystemFactory
+'   PSystemFactory -> AbstractPSystem : new
+'   activate AbstractPSystem
+'   AbstractPSystem --> PSystemFactory : AbstractPSystem
+'   deactivate AbstractPSystem
+
+  loop PlantUMLソースの全行
+    note over PSystemFactory
+      [ループの説明]
+      PlantUMLソースの各行について
+      対応するCommnadを実行する
+    end note
+
+    loop コマンドリスト
+      note over PSystemFactory
+        [ループの説明]
+        PSystemCommandFactoryごとに定義された
+        コマンドリストから探す
+      end note
+      PSystemFactory -> Command : isValid
+      activate Command
+      note right
+        現在の行がCommandで処理可能か
+        正規表現で判定する
+      end note
+      Command --> PSystemFactory : CommandControl
+      note right
+        処理不可であればNOT_OKを返す
+      end note
+
+      break CommandControlがOKかOK_PARTIALの場合
+        note over PSystemFactory
+          [ブレークの説明]
+          現在の行を処理可能なCommandが
+          見つかったらループを終了しStep
+          (Commandと処理対象ソースのセット)を作成する
+        end note
+        PSystemFactory --> PSystemFactory : new Step
+      end
+
+    end
+
+    break 対応するCommandが見つからない場合（Stepがnull）
+      note over PSystemFactory
+        [ブレークの説明]
+        現在の行に対応するCommandが見つからなければ
+        ループは終了しPSystemErrorV2(Diagramのサブタイプ)を返す
+      end note
+      PSystemFactory --> PSystemBuilder : PSystemErrorV2
+    end
+
+    ' net.sourceforge.plantuml.AbstractPSystem#executeCommand(Command,BlocLines,ParserPass)
+    PSystemFactory -> AbstractPSystem : executeCommand
+    activate AbstractPSystem
+    ' net.sourceforge.plantuml.command.Command#execute(Diagram,BlocLines,ParserPass)
+    AbstractPSystem -> Command : execute
+    note right
+      PlnatUMLソースを処理し、
+      AbstractPSystemの
+      フィールドを更新する
+    end note
+    
+    Command --> AbstractPSystem : CommandExecutionResult
+    note right
+      Commandの実行結果を返す
+    end note
+    deactivate Command
+
+    AbstractPSystem --> PSystemFactory : CommandExecutionResult
+    deactivate AbstractPSystem
+
+    break CommandExecutionResultのerrorフィールドが入力されている
+      note over PSystemFactory
+        [ブレークの説明]
+        コマンドが失敗すると
+        ループは終了しPSystemErrorV2を返す
+      end note
+      PSystemFactory --> PSystemBuilder : PSystemErrorV2
+      note right 
+        エラー:
+        PSystemErrorV2を返す
+      end note
+    end
+  end
+  PSystemFactory --> PSystemBuilder : Diagram
+  note right 
+    全てのコマンドが正常終了:
+    nullか
+    PSystemErrorV2でないDiagramのサブタイプを返す
+  end note
+  deactivate PSystemFactory
+  
+  break isOK
+    note over PSystemBuilder
+      [ブレークの説明]
+      nullでなく、
+      PSystemErrorV2ではないDiagramが
+      返ってきたらループを終了し、
+      Diagramを返却する
+    end note
+    PSystemBuilder --> Xxx : Diagram
+  end
+end
+
+PSystemBuilder --> Xxx : Diagram
+note right 
+  全てのFactoryを試しても
+  エラーのないDiagramが返ってこなかったら
+  これまでのPSystemErrorV2をマージして返す
+end note
+deactivate PSystemBuilder
+
+Xxx -> Xxx : 画像ファイル生成等
+
+Xxx --> Run :
+deactivate Xxx
+Run --> User : 
+deactivate Run
+
+@enduml

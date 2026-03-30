@@ -1,9 +1,9 @@
 @startuml
 autoactivate on
 Run -> Run : main
-Run -> Run : manageAllFiles
-Run -> Run : processArgs
-Run -> Run : manageFileInternal
+Run -> Run #FFBBBB : manageAllFiles
+Run -> Run #DarkSalmon : processArgs
+Run -> Run #005500 : manageFileInternal
 Run -> ": SourceFileReaderAbstract" : getGeneratedImages
 ": SourceFileReaderAbstract" -> ": BlockUml" : getDiagram
 ": BlockUml" -> ": PSystemBuilder" : createPSystem
@@ -33,16 +33,60 @@ group loop ( factories ) [ createSystem isOK ]
     
     ": PSystemFactory" -> ": AbstractPSystem" : executeCommand(step.command, step.blocLines, ...)
     ": AbstractPSystem" -> ": ProtectedCommand" : execute
-    ": ProtectedCommand" -> ": SingleLineCommand2" : execute
+    ' ": ProtectedCommand" -> ": SingleLineCommand2" : execute
     
-    ": SingleLineCommand2" -> ": CommandCreateClass" : executeArg(Diagram, ...)
-    ": CommandCreateClass" -> ": CommandCreateClass" : executeArg(ClassDiagram, ...) 
-    return CommandExecutionResult
-    return CommandExecutionResult
-    ": SingleLineCommand2" -> ": CommandLinkClass" : executeArg(Diagram, ...)
-    ": CommandLinkClass" -> ": CommandLinkClass" : executeArg(AbstractClassOrObjectDiagram, ...)
-    return CommandExecutionResult
-    return CommandExecutionResult
+    ' ": SingleLineCommand2" -> ": CommandCreateClass" : executeArg(Diagram, ...)
+    ' ": CommandCreateClass" -> ": CommandCreateClass" : executeArg(ClassDiagram, ...) 
+    ' return CommandExecutionResult
+    ' return CommandExecutionResult
+    ' ": SingleLineCommand2" -> ": CommandLinkClass" : executeArg(Diagram, ...)
+    ' ": CommandLinkClass" -> ": CommandLinkClass" : executeArg(AbstractClassOrObjectDiagram, ...)
+    ' return CommandExecutionResult
+    ' return CommandExecutionResult
+    return
+    return
+    return
   end  
+  return Diagram
+
 end
+return Diagram
+
+return AbstractPSystem
+
+": SourceFileReaderAbstract" -> PSystemUtils : exportDiagrams
+PSystemUtils -> ": AbstractPSystem" : exportDiagram
+": AbstractPSystem" -> ": AbstractPSystem" #FFBBBB : exportDiagramNow
+": AbstractPSystem" -> ": AbstractPSystem" #DarkSalmon : exportDiagramInternal
+": AbstractPSystem" -> ": AbstractPSystem" #005500 : getDotStrings
+return
+
+": AbstractPSystem" -> ": CucaDiagramFileMaker" : createFile
+": CucaDiagramFileMaker" -> ": CucaDiagramFileMaker" : createFileInternal
+
+": CucaDiagramFileMaker" -> ": GraphvizImageBuilder" : buildImage
+return TextBlock
+
+": CucaDiagramFileMaker" -> ": AbstractPSystem" : createImageBuilder
+
+return ImageBuilder
+
+": CucaDiagramFileMaker" -> ": ImageBuilder" : write
+
+": ImageBuilder" -> ": ImageBuilder" : writeImageInternal
+
+return ImageData
+return ImageData
+return ImageData
+return ImageData
+return ImageData
+return ImageData
+return ImageData
+
+return List<FileImageData>
+return List<GeneratedImage>
+return
+return
+return
+
 @enduml
